@@ -5,6 +5,8 @@ from address_book.address_book import AddressBook
 from commands.command_dispatcher import CommandDispatcher
 from constants import COMMANDS_DESCRIPTION
 from parsers.input_parser import parse_input
+from prompt_toolkit import prompt
+from address_book.utils import Completer, RainbowLexer
 
 
 def main():
@@ -13,7 +15,7 @@ def main():
     print("Welcome to the assistant bot!")
    
     while True:
-        user_input = input("Enter a command: ")
+        user_input = prompt("Enter a command: ", completer=Completer, lexer=RainbowLexer())
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit"]:

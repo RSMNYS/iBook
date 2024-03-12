@@ -4,6 +4,9 @@ from datetime import datetime
 from collections import defaultdict
 from typing import List
 from address_book.record import Record
+from prompt_toolkit.lexers import Lexer
+from prompt_toolkit.styles.named_colors import NAMED_COLORS
+from prompt_toolkit.completion import NestedCompleter
 
 def display_birthdays_per_week(users: List[Record]):
     today = datetime.today().date()
@@ -50,3 +53,24 @@ def validate_date_format(date_string):
         return True
     else:
         return False
+    
+
+
+
+class RainbowLexer(Lexer):
+    def lex_document(self, document):
+        colors = list(sorted({"Teal": "#008080"}, key=NAMED_COLORS.get))
+
+        def get_line(lineno):
+            return [
+                (colors[i % len(colors)], c)
+                for i, c in enumerate(document.lines[lineno])
+            ]
+
+        return get_line
+
+
+Completer = NestedCompleter.from_nested_dict({'hello': None, 'exit': None,
+                                              'close': None, 'show-birthday': None, 'add': None,
+                                              'change': None, 'add-birthday': None, 'phone': None,
+                                              'show': None, 'all': None})
