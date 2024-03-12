@@ -3,6 +3,8 @@ from abc import ABC, abstractmethod
 from decorators.input_error_decorator import input_error
 from address_book.address_book import AddressBook
 from address_book.record import Record
+from address_book.utils import validate_date_format
+from src.constants import *
 from prompts.field import NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt, AddressPrompt
 
 
@@ -103,8 +105,16 @@ class ShowBirthdayCommand(Command):
 class ShowBirthdaysCommand(Command):
 
     def execute(self, address_book):
-        self._show_birthdays(address_book)
+        days_in_advance = self.get_input(UPCOMING_BIRTHDAYS_MESSAGE)
+        if not days_in_advance:
+            print(EMPTY_DAYS_ERROR_MESSAGE)
+            return
 
-    def _show_birthdays(self, address_book: AddressBook):
+        self._show_birthdays(address_book, days_in_advance)
+
+    def _show_birthdays(self, address_book: AddressBook, days_in_advance):
         if address_book:
-            address_book.show_birthdays_per_week()
+            address_book.show_birthdays_per_week(days_in_advance)
+
+    def get_input(self, prompt):
+        return input(prompt)
