@@ -4,6 +4,7 @@ from decorators.input_error_decorator import input_error
 from address_book.address_book import AddressBook
 from address_book.record import Record
 from address_book.utils import validate_date_format
+from src.constants import *
 
 
 class Command(ABC):
@@ -112,9 +113,9 @@ class ShowBirthdayCommand(Command):
 class ShowBirthdaysCommand(Command):
 
     def execute(self, address_book):
-        days_in_advance = self.get_input("Specify days in advance for upcoming birthdays: ")
+        days_in_advance = self.get_input(UPCOMING_BIRTHDAYS_MESSAGE)
         if not days_in_advance:
-            print("Error: Days in advance cant be empty.")
+            print(EMPTY_DAYS_ERROR_MESSAGE)
             return
 
         self._show_birthdays(address_book, days_in_advance)

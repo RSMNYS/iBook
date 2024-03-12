@@ -4,6 +4,7 @@ from datetime import datetime
 from collections import defaultdict
 from typing import List
 from address_book.record import Record
+from src.constants import *
 
 def display_birthdays_per_week(users: List[Record], delta):
     today = datetime.today().date()
@@ -28,7 +29,8 @@ def display_birthdays_per_week(users: List[Record], delta):
     if len(birthdays) > 0:
         _display_birthdays(birthdays)
     else:
-        print("No birthdays for this week to be notified about")
+        message = NO_BIRTHDAYS_MESSAGE.format(n=delta)
+        print(message)
     
     
 

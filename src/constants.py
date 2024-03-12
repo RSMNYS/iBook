@@ -11,3 +11,6 @@ birthdays: Показати дні народження, які відбудут
 hello: Отримати вітання від бота.
 close або exit: Закрити програму.
 """
+NO_BIRTHDAYS_MESSAGE = "No birthdays for the next {n} days to be notified about"
+UPCOMING_BIRTHDAYS_MESSAGE = "Specify days in advance for upcoming birthdays: "
+EMPTY_DAYS_ERROR_MESSAGE = "Error: Days in advance can't be empty."
