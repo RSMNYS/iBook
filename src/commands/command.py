@@ -112,8 +112,16 @@ class ShowBirthdayCommand(Command):
 class ShowBirthdaysCommand(Command):
 
     def execute(self, address_book):
-        self._show_birthdays(address_book)
+        days_in_advance = self.get_input("Specify days in advance for upcoming birthdays: ")
+        if not days_in_advance:
+            print("Error: Days in advance cant be empty.")
+            return
 
-    def _show_birthdays(self, address_book: AddressBook):
+        self._show_birthdays(address_book, days_in_advance)
+
+    def _show_birthdays(self, address_book: AddressBook, days_in_advance):
         if address_book:
-            address_book.show_birthdays_per_week()
+            address_book.show_birthdays_per_week(days_in_advance)
+
+    def get_input(self, prompt):
+        return input(prompt)

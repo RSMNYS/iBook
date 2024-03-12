@@ -5,7 +5,7 @@ from collections import defaultdict
 from typing import List
 from address_book.record import Record
 
-def display_birthdays_per_week(users: List[Record]):
+def display_birthdays_per_week(users: List[Record], delta):
     today = datetime.today().date()
     birthdays = defaultdict(list)
 
@@ -20,7 +20,8 @@ def display_birthdays_per_week(users: List[Record]):
 
         delta_days = (birthday_this_year - today).days
 
-        if delta_days < 7:
+        delta = int(delta)
+        if delta_days < delta:
             weekday_name = _workday_name_for_date(birthday_this_year)
             birthdays[weekday_name].append(name)
 
