@@ -23,4 +23,6 @@ class AddressBook(UserDict):
 
     def show_birthdays_per_week(self):
         birthdays_per_week(self.records)
-        
+
+    def __str__(self):
+        return f'{[str(record) for record in self.records]}'

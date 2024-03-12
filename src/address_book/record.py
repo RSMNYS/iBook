@@ -1,10 +1,13 @@
-from address_book.field import Name, Phone, Birthday
+from address_book.field import Name, Phone, Birthday, Email, Address
+
 
 class Record:
     def __init__(self, name):
         self.name = Name(name)
         self.phones = []
         self.birthday = None
+        self.email = None
+        self.address = None
 
     def add_phone(self, phone):
         if (len(phone) == 10 and phone.isnumeric()):
@@ -12,11 +15,9 @@ class Record:
         else:
             raise ValueError(f"Phone number: {phone} is wrong")
 
-
     def remove_phone(self, phone):
         self.phones.remove[phone]
     
-
     def edit_phone(self, phone, new_phone):
         for i, item in enumerate(self.phones):
             if item.value == phone:
@@ -30,6 +31,12 @@ class Record:
     
     def add_birthday(self, birthday):
         self.birthday = Birthday(birthday)
+
+    def add_email(self, email):
+        self.email = Email(email)
+
+    def add_address(self, address):
+        self.address = Address(address)
 
     def __str__(self):
         return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}, birthday: {self.birthday.value if self.birthday else ''}"
