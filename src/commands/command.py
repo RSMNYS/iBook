@@ -1,3 +1,4 @@
+import re
 from abc import ABC, abstractmethod
 
 from decorators.input_error_decorator import input_error
@@ -25,11 +26,9 @@ class AddContactCommand(Command):
         if not name:
             print("Error: Name cannot be empty.")
             return
-        
-        phone = self.get_input("Enter the phone number of the contact: ")
-        if not phone:
-            print("Error: Phone number cannot be empty.")
-            return
+    
+        phone = self._get_phone_from_user()
+        email = self._get_email_from_user()
 
         self._add_contact(name, phone, address_book = address_book)
 
@@ -41,9 +40,40 @@ class AddContactCommand(Command):
 
     def get_input(self, prompt):
         return input(prompt)
+    
+    def _custom_validate_phone(self, number):
+        clean_number = number.replace(" ", "").replace("+", "").replace("(", "").replace(")", "").replace("-", "")
+        if (len(clean_number) in [10, 12] and clean_number.isnumeric()):
+            return True
+        else:
+            return False
+        
+    def _get_phone_from_user(self):
+        while True:
+            phone = self.get_input("Enter the phone number of the contact: ")
+            is_correct_phone = self._custom_validate_phone(phone)
+            if not is_correct_phone:
+                print("Error: Phone number is not correct. Please try again.")
+                continue
+            else:
+                return phone
+            
+    def _get_email_from_user(self):
+        while True:
+            email = self.get_input("Enter the email of the contact: ")
+            is_correct_email = self._custom_validate_email(email)
+            if not is_correct_email:
+                print("Error: Email is not correct. Please try again.")
+                continue
+            else:
+                return email
+            
+    def _custom_validate_email(self, email):
+        pattern = r"[a-zA-Z]+[a-zA-Z0-9._]+@[a-z]+\.[a-z]{2,}"
+        result = re.search(pattern, email, flags=re.IGNORECASE)
+        return True if result else False
 
-
-class ChangePhoneCommand(Command):
+class ChangePhoneCommand(AddContactCommand):
 
     @input_error
     def execute(self, name, phone, address_book):
@@ -54,9 +84,10 @@ class ChangePhoneCommand(Command):
             raise KeyError("Enter user name")
         record = address_book.find(name)
         record.phones.clear()
+        if not self._custom_validate_phone(phone):
+            phone = self._get_phone_from_user()
         record.add_phone(phone)
         print("Phone is updated for the user.")
-
 
 class ContactPhoneCommand(Command):
     

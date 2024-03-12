@@ -7,10 +7,7 @@ class Record:
         self.birthday = None
 
     def add_phone(self, phone):
-        if (len(phone) == 10 and phone.isnumeric()):
-            self.phones.append(Phone(phone))
-        else:
-            raise ValueError(f"Phone number: {phone} is wrong")
+        self.phones.append(Phone(phone))
 
 
     def remove_phone(self, phone):
