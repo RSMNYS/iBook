@@ -5,6 +5,7 @@ from decorators.input_error_decorator import input_error
 from address_book.address_book import AddressBook
 from address_book.record import Record
 from address_book.utils import validate_date_format
+from constants import CONTACT_PHONE_NUMBER_INPUT_TEXT
 
 
 class Command(ABC):
@@ -50,7 +51,7 @@ class AddContactCommand(Command):
         
     def _get_phone_from_user(self):
         while True:
-            phone = self.get_input("Enter the phone number of the contact: ")
+            phone = self.get_input(CONTACT_PHONE_NUMBER_INPUT_TEXT)
             is_correct_phone = self._custom_validate_phone(phone)
             if not is_correct_phone:
                 print("Error: Phone number is not correct. Please try again.")

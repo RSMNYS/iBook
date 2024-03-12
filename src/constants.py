@@ -11,3 +11,6 @@ birthdays: Показати дні народження, які відбудут
 hello: Отримати вітання від бота.
 close або exit: Закрити програму.
 """
+
+CONTACT_PHONE_NUMBER_INPUT_TEXT = "Enter the phone number of the contact: "
+
