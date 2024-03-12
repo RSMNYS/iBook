@@ -32,7 +32,7 @@ class Record:
         self.birthday = Birthday(birthday)
 
     def __str__(self):
-        return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}, birthday: {self.birthday.value}"
+        return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}, birthday: {self.birthday.value if self.birthday else ''}"
     
 
 if __name__ == "__main__":

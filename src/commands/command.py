@@ -19,8 +19,18 @@ class HelloCommand(Command):
         
 class AddContactCommand(Command):
     
-    @input_error
-    def execute(self, name, phone, address_book):
+    def execute(self, *args, address_book):
+
+        name = self.get_input("Enter the name of the contact: ")
+        if not name:
+            print("Error: Name cannot be empty.")
+            return
+        
+        phone = self.get_input("Enter the phone number of the contact: ")
+        if not phone:
+            print("Error: Phone number cannot be empty.")
+            return
+
         self._add_contact(name, phone, address_book = address_book)
 
     def _add_contact(self, name, phone, address_book: AddressBook):
@@ -28,6 +38,9 @@ class AddContactCommand(Command):
         record.add_phone(phone)
         address_book.add_record(record)
         print("Contact added.")
+
+    def get_input(self, prompt):
+        return input(prompt)
 
 
 class ChangePhoneCommand(Command):
