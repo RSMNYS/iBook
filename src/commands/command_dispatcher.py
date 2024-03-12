@@ -7,7 +7,7 @@ class CommandDispatcher:
     def __init__(self):
         self.commands: Dict[str, Command] = {
             "hello": HelloCommand(),
-            "add": AddContactCommand(),
+            "add-contact": AddContactCommand(),
             "change": ChangePhoneCommand(),
             "phone": ContactPhoneCommand(),
             "all": AllContactsCommand(),
