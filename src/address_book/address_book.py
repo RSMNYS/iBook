@@ -1,7 +1,7 @@
 from collections import UserDict
 from typing import List
 from address_book.record import Record
-from address_book.utils import display_birthdays_per_week
+from address_book.utils import display_birthdays_per_week as display_birthdays_per_week
 
 class AddressBook(UserDict):
 
@@ -23,3 +23,6 @@ class AddressBook(UserDict):
 
     def show_birthdays_per_week(self, days_in_advance):
         display_birthdays_per_week(self.records, days_in_advance)
+
+    def __str__(self):
+        return f'{[str(record) for record in self.records]}'

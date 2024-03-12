@@ -5,6 +5,7 @@ from address_book.address_book import AddressBook
 from address_book.record import Record
 from address_book.utils import validate_date_format
 from src.constants import *
+from prompts.field import NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt, AddressPrompt
 
 
 class Command(ABC):
@@ -17,31 +18,25 @@ class HelloCommand(Command):
     def execute(self):
         print("How can I help you?")
 
-        
+
 class AddContactCommand(Command):
     
-    def execute(self, *args, address_book):
+    def execute(self, address_book: AddressBook):
+        record = Record(NamePrompt().field)
+        record.add_phone(PhonePrompt().field)
 
-        name = self.get_input("Enter the name of the contact: ")
-        if not name:
-            print("Error: Name cannot be empty.")
-            return
-        
-        phone = self.get_input("Enter the phone number of the contact: ")
-        if not phone:
-            print("Error: Phone number cannot be empty.")
-            return
+        birthday = BirthdayPrompt()
+        email = EmailPrompt()
+        address = AddressPrompt()
 
-        self._add_contact(name, phone, address_book = address_book)
+        if birthday.field:
+            record.add_birthday(birthday.field)
+        if email.field:
+            record.add_email(email.field)
+        if address.field:
+            record.add_address(address.field)
 
-    def _add_contact(self, name, phone, address_book: AddressBook):
-        record = Record(name)
-        record.add_phone(phone)
         address_book.add_record(record)
-        print("Contact added.")
-
-    def get_input(self, prompt):
-        return input(prompt)
 
 
 class ChangePhoneCommand(Command):
@@ -83,16 +78,13 @@ class AddBirthdayCommand(Command):
     
     @input_error
     def execute(self, name, birthday, address_book):
-        self._add_birthday(name, birthday, address_book)
-
-    def _add_birthday(self, name, birthday, address_book):
         record: Record = address_book.get(name)
         if not record:
             raise KeyError("Enter user name")
-        if not validate_date_format(birthday):
-            raise ValueError("Birthday has wrong format. Please use: DD.MM.YYYY")
-        else:
-            record.add_birthday(birthday)
+
+        birthday = BirthdayPrompt()
+        if birthday.field:
+            record.add_birthday(birthday.field)
             print("Birthday is updated for the user.")
        
 

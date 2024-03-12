@@ -16,3 +16,13 @@ class Phone(Field):
 class Birthday(Field):
     def __init__(self, field):
         super().__init__(field)
+
+
+class Email(Field):
+    def __init__(self, field):
+        super().__init__(field)
+
+
+class Address(Field):
+    def __init__(self, field):
+        super().__init__(field)
