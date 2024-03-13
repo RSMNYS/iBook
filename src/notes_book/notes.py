@@ -3,7 +3,7 @@ from collections import UserDict
 
 
 class Notes(UserDict):
-    
+
     def __init__(self, title="Untitled"):
         super().__init__()
         self.title = Note_Title(title)
