@@ -17,6 +17,14 @@ class Birthday(Field):
     def __init__(self, field):
         super().__init__(field)
 
-class Notebook(Field):
+class Note_Title(Field):
+    def __init__(self, field):
+        super().__init__(field)
+
+class Note_Content(Field):
+    def __init__(self, field):
+        super().__init__(field)
+
+class Note_Tag(Field):
     def __init__(self, field):
         super().__init__(field)
