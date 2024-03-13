@@ -180,18 +180,14 @@ class RunAIAssistantCommand(Command):
         prompt = AIPrompt()
         system_instruction = "Given a JSON structure containing 'contacts' and 'notes', filter the data based on specified criteria (e.g., phone numbers starting with a certain digit, substrings in names, titles, or specific words in tags/content). Return the data in the same structure, under the original 'contacts' and 'notes' keys, respectively. Ensure empty arrays are returned for no matches and omit incomplete entries without altering the structure."
         
-        # print(system_instruction)
         
         while prompt.field != 'exit':
-            data_str = f"{str(address_book)}"
+            data_str = f"{address_book.json()}"
             data_str = data_str + f"\n\nQ{prompt.field}"
-            print(data_str)
             messages = [{"role": "system", "content": system_instruction}, {"role": "user", "content": data_str}]
-            
         
             response = create_chat_completion(messages=messages)
             data = json.loads(response.choices[0].message.content)
-            print(data)
             self.displayData(data)
         
             prompt = AIPrompt()
