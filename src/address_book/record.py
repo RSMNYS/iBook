@@ -40,7 +40,29 @@ class Record:
 
     def __str__(self):
         return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}, birthday: {self.birthday.value if self.birthday else ''}"
-    
+
+    def to_dict(self):
+        return dict(
+            name=self.name.value,
+            phones=[p.value for p in self.phones],
+            birthday=self.birthday.value if self.birthday else None,
+            email=self.email.value if self.email else None,
+            address=self.address.value if self.address else None
+        )
+
+    @classmethod
+    def from_dict(cls, data) -> 'Record':
+        record = Record(data['name'])
+        for phone in data['phones']:
+            record.add_phone(phone)
+        if data['birthday']:
+            record.add_birthday(data['birthday'])
+        if data['email']:
+            record.add_email(data['email'])
+        if data['address']:
+            record.add_address(data['address'])
+        return record
+
 
 if __name__ == "__main__":
     print('main')
