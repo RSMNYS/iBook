@@ -13,6 +13,7 @@ from prompts.field import (NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt,
 from services.ai_service import create_chat_completion
 from address_book.search_parameters import SearchParameter
 
+
 class Command(ABC):
     @abstractmethod
     def execute(self):
