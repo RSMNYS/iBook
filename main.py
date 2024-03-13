@@ -6,24 +6,25 @@ load_dotenv()
 
 from address_book.address_book import AddressBook
 from commands.command_dispatcher import CommandDispatcher
-from constants import COMMANDS_DESCRIPTION
+from constants import COMMANDS_DESCRIPTION, WELCOME_MESSAGE, ENTER_COMMAND, \
+GOOD_BYE_MESSAGE
 from parsers.input_parser import parse_input
 
 
 def main():
     book = AddressBook.load()
     dispatcher = CommandDispatcher()
-    print("Welcome to the assistant bot!")
+    print(WELCOME_MESSAGE)
    
     while True:
-        user_input = input("Enter a command: ")
+        user_input = input(ENTER_COMMAND)
         if len(user_input) == 0:
             continue
         
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit"]:
-            print("Good bye!")
+            print(GOOD_BYE_MESSAGE)
             break
         if command == "hello":
             dispatcher.dispatch(command)

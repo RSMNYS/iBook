@@ -23,4 +23,6 @@ CONTACT_IS_ADDED_MESSAGE = "Contact is added."
 FILE_PATH_BOOK = os.path.abspath('address_book.json')
 FILE_PATH_NOTES = os.path.abspath('notes.json')
 
-
+WELCOME_MESSAGE = "Welcome to the assistant bot!"
+ENTER_COMMAND = "Enter a command: "
+GOOD_BYE_MESSAGE = "Good bye!"
