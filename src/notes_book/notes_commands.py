@@ -49,10 +49,12 @@ class TagsCommand(ABC):
 class AddTagCommand(TagsCommand):
 
     def execute(self, *args, **kwargs):
-        tag = input("Enter the tag: ")
-        kwargs['tags'].add_tags(tag)
-        print("Tag added.")
-
+        tags_input = input("Enter the tags separated by commas: ")
+        tags = [tag.strip() for tag in tags_input.split(",")]
+        for tag in tags:
+            kwargs['tag_manager'].add_tag(tag)
+        print("Tags added.")
+        
 class EditTagCommand(TagsCommand):
 
     def execute(self, *args, **kwargs):
