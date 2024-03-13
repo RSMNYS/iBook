@@ -5,7 +5,7 @@ from notes_book.notes_commands import AddNoteCommand, EditNoteCommand, DeleteNot
 from commands.command import (AddBirthdayCommand, AddContactCommand, AllContactsCommand, ChangePhoneCommand,
                               ContactPhoneCommand, HelloCommand, ShowBirthdayCommand, ShowBirthdaysCommand,
                               RemoveContactCommand, EditContactCommand, RunAIAssistantCommand)
-from notes_book.notes_commands import AddNoteCommand, EditNoteCommand, DeleteNoteCommand, SearchNoteByTitleCommand, AddTagCommand, EditTagCommand, SearchNoteByTagCommand
+from notes_book.notes_commands import (AddNoteCommand, EditNoteCommand, DeleteNoteCommand, SearchNoteByTitleCommand, AddTagCommand, EditTagCommand, SearchNoteByTagCommand)
 
 
 
@@ -23,7 +23,6 @@ class CommandDispatcher:
             "show-birthday": ShowBirthdayCommand(),
             "birthdays": ShowBirthdaysCommand(),
             "ai": RunAIAssistantCommand(),
-            "birthdays": ShowBirthdaysCommand(),
             "add-note": AddNoteCommand(),
             "edit-note": EditNoteCommand(),
             "delete-note": DeleteNoteCommand(),
