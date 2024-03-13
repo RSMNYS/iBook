@@ -55,7 +55,11 @@ class AddressBook(UserDict):
             address_book.add_record(Record.from_dict(record))
 
         return address_book
+    
+    def json(self):
+        return "{" + f"contacts:" + json.dumps([r.to_dict() for r in self.records], indent=4) + "}"
 
+    
     def save(self):
         with open(constants.FILE_PATH_BOOK, 'w') as f:
             json.dump([r.to_dict() for r in self.records], f, indent=4)
