@@ -1,5 +1,10 @@
+import os
+import json
 from collections import UserDict
 from typing import List
+from pprint import pprint
+
+import constants
 from address_book.record import Record
 from address_book.utils import display_birthdays_per_week as display_birthdays_per_week
 from exceptions.validation import ContactNameNotFoundException
@@ -37,3 +42,23 @@ class AddressBook(UserDict):
 
     def __str__(self):
         return f'{[str(record) for record in self.records]}'
+
+    @classmethod
+    def load(cls) -> 'AddressBook':
+        data = []
+        if os.path.exists(constants.FILE_PATH_BOOK):
+            with open(constants.FILE_PATH_BOOK, 'r') as f:
+                data.extend(json.load(f))
+
+        address_book = cls()
+        for record in data:
+            address_book.add_record(Record.from_dict(record))
+
+        return address_book
+
+    def save(self):
+        with open(constants.FILE_PATH_BOOK, 'w') as f:
+            json.dump([r.to_dict() for r in self.records], f, indent=4)
+
+    def show(self):
+        pprint([r.to_dict() for r in self.records])
