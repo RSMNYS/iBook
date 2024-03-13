@@ -1,97 +1,73 @@
-# from notes import Notebook, NotebookSearcher
+from abc import ABC, abstractmethod
+from address_book.field import Note_Title, Note_Content, Note_Tag
+from notes import Notes, Tags
 
-# def main():
-    
-#     #Створює нову нотатку
+class NotesCommand(ABC):
 
-#     notebook = Notebook()
+    @abstractmethod
+    def execute(self):
+        pass
 
-#     while True:
-#         print("\nМеню:")
-#         print("1. Додати нотатку")
-#         print("2. Редагувати нотатку")
-#         print("3. Видалити нотатку")
-#         print("4. Пошук за заголовком")
-#         print("5. Пошук за тегом")
-#         print("6. Вийти")
+class AddNoteCommand(NotesCommand):
 
-#         choice = input("Виберіть опцію: ")
+    def execute(self, *args, **kwargs):
+        title = input("Enter the title of the note: ")
+        content = input("Enter the content of the note: ")
+        kwargs['notes'].add_note(title, content)
+        print("Note added.")
 
-#         if choice == "1":
-#             title = input("Введіть заголовок нотатки: ")
-#             content = input("Введіть контент нотатки: ")
-#             notebook.add_content(title, content)
-#             tags_input = input("Введіть теги (через кому): ")
-#             tags = [tag.strip() for tag in tags_input.split(",")]
-#             for tag in tags:
-#                 notebook.add_tags(tag)
+class EditNoteCommand(NotesCommand):
 
-#         elif choice == "2":
-#             title = input("Введіть заголовок нотатки, яку потрібно редагувати: ")
-#             new_content = input("Введіть новий контент: ")
-#             notebook.edit_content(title, new_content)
+    def execute(self, *args, **kwargs):
+        title = input("Enter the title of the note to edit: ")
+        new_content = input("Enter the new content of the note: ")
+        kwargs['notes'].edit_note(title, new_content)
 
-#         elif choice == "3":
-#             title = input("Введіть заголовок нотатки, яку потрібно видалити: ")
-#             notebook.delete_notebook(title)
+class DeleteNoteCommand(NotesCommand):
+    def execute(self, *args, **kwargs):
+        title = input("Enter the title of the note to delete: ")
+        kwargs['notes'].delete_notebook(title)
 
-#         elif choice == "4":
-#             query = input("Введіть запит для пошуку за заголовком: ")
-#             results = NotebookSearcher(notebook).search_by_title(query)
-#             if results:
-#                 print("Результати пошуку:")
-#                 for result in results:
-#                     print(f"Заголовок: {result[0]}")
-#                     print(f"Контент: {result[1]}")
-#                     print(f"Теги: {result[2]}")
-#             else:
-#                 print("Нотаток не знайдено за введеним запитом.")
-
-#         elif choice == "5":
-#             tag = input("Введіть тег для пошуку: ")
-#             results = NotebookSearcher(notebook).search_by_tag(tag)
-#             if results:
-#                 print("Результати пошуку:")
-#                 for result in results:
-#                     print(f"Заголовок: {result[0]}")
-#                     print(f"Нотатка: {result[1]}")
-#                     print(f"Теги: {result[2]}")
-#             else:
-#                 print("Нотатку не знайдено за введеним тегом.")
-
-#         elif choice == "6":
-#             print("Дякую за використання програми!")
-#             break
-
-#         else:
-#             print("Некоректний вибір. Будь ласка, введіть число від 1 до 6.")
-
-
-# if __name__ == "__main__":
-#     main()
-
-
-from typing import Dict
-from commands.command import AddBirthdayCommand, AddContactCommand, AllContactsCommand, ChangePhoneCommand, ContactPhoneCommand, HelloCommand, ShowBirthdayCommand, ShowBirthdaysCommand
-from commands.command import Command
-
-
-class CommandDispatcher:
-    def __init__(self):
-        self.commands: Dict[str, Command] = {
-            "hello": HelloCommand(),
-            "add": AddContactCommand(),
-            "change": ChangePhoneCommand(),
-            "phone": ContactPhoneCommand(),
-            "all": AllContactsCommand(),
-            "add-birthday": AddBirthdayCommand(),
-            "show-birthday": ShowBirthdayCommand(),
-            "birthdays": ShowBirthdaysCommand()
-        }
-    
-    def dispatch(self, command_name, *args, **kwargs):
-        command = self.commands.get(command_name)
-        if command:
-            command.execute(*args, **kwargs)
+class SearchNoteByTitleCommand(NotesCommand):
+    def execute(self, *args, **kwargs):
+        query = input("Enter the query to search by title: ")
+        results = kwargs['notes'].search_by_title(query)
+        if results:
+            print("Search results:")
+            for result in results:
+                print(result)
         else:
-            print('Invalid command')
+            print("No notes found.")
+
+
+class TagsCommand(ABC):
+
+    @abstractmethod
+    def execute(self):
+        pass
+
+class AddTagCommand(TagsCommand):
+
+    def execute(self, *args, **kwargs):
+        tag = input("Enter the tag: ")
+        kwargs['tags'].add_tags(tag)
+        print("Tag added.")
+
+class EditTagCommand(TagsCommand):
+
+    def execute(self, *args, **kwargs):
+        old_tag = input("Enter the old tag: ")
+        new_tag = input("Enter the new tag: ")
+        kwargs['tags'].edit_tags(Note_Tag(old_tag), Note_Tag(new_tag))
+
+class SearchNoteByTagCommand(TagsCommand):
+
+    def execute(self, *args, **kwargs):
+        tag = input("Enter the tag to search by: ")
+        results = kwargs['notes'].search_by_tag(tag)
+        if results:
+            print("Search results:")
+            for result in results:
+                print(result)
+        else:
+            print("No notes found with the specified tag.")
