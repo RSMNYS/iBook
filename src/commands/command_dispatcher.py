@@ -3,7 +3,7 @@ from typing import Dict
 from commands.command import Command
 from commands.command import (AddBirthdayCommand, AddContactCommand, AllContactsCommand, ChangePhoneCommand,
                               ContactPhoneCommand, HelloCommand, ShowBirthdayCommand, ShowBirthdaysCommand,
-                              RemoveContactCommand, EditContactCommand, RunAIAssistantCommand)
+                              RemoveContactCommand, EditContactCommand, RunAIAssistantCommand, SearchContactsCommand)
 
 
 class CommandDispatcher:
@@ -19,6 +19,7 @@ class CommandDispatcher:
             "add-birthday": AddBirthdayCommand(),
             "show-birthday": ShowBirthdayCommand(),
             "birthdays": ShowBirthdaysCommand(),
+            "search": SearchContactsCommand(),
             "ai": RunAIAssistantCommand()
         }
     

@@ -11,7 +11,7 @@ from prompts.field import (NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt,
                            AddressPrompt, RemoveNamePrompt, EditNamePrompt, EditContactPrompt, AIPrompt)
 
 from services.ai_service import create_chat_completion
-
+from address_book.search_parameters import SearchParameter
 
 class Command(ABC):
     @abstractmethod
@@ -207,4 +207,21 @@ class RunAIAssistantCommand(Command):
             else:
                 if not data.get("contacts"):
                    print("No contacts or notes available.")
-       
+
+
+class SearchContactsCommand(Command):
+
+    def execute(self, address_book):
+        search_parameter = self.get_input(SEARCH_CONTACTS_INSTRUCTION_MESSAGE)
+        if not search_parameter:
+            print("Error: Please enter a valid number.")
+            return
+        query = self.get_input("Enter the search query: ")
+        self._search_contact(search_parameter, query, address_book)
+
+    def _search_contact(self, search_parameter, query, address_book: AddressBook):
+        result = address_book.search_contact(search_parameter, query)
+        print(result)
+
+    def get_input(self, prompt):
+        return input(prompt)
