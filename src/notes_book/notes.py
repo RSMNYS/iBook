@@ -11,7 +11,7 @@ class Notes(UserDict):
         self.tags = []
 
     def edit_title(self, title, new_title):
-        for key, value in self.data.items():
+        for key in self.data.keys():
             if key == title:
                 self.data[new_title] = self.data.pop(title)
                 self.data[new_title].title = Note_Title(new_title)

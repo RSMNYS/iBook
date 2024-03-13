@@ -22,7 +22,7 @@ class CommandDispatcher:
             "add-birthday": AddBirthdayCommand(),
             "show-birthday": ShowBirthdayCommand(),
             "birthdays": ShowBirthdaysCommand(),
-            "ai": RunAIAssistantCommand()
+            "ai": RunAIAssistantCommand(),
             "birthdays": ShowBirthdaysCommand(),
             "add-note": AddNoteCommand(),
             "edit-note": EditNoteCommand(),
