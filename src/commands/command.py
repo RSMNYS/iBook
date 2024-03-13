@@ -188,18 +188,8 @@ class RunAIAssistantCommand(Command):
             print(data_str)
             messages = [{"role": "system", "content": system_instruction}, {"role": "user", "content": data_str}]
             
-            
-            # print(messages)
         
             response = create_chat_completion(messages=messages)
-            # print(response)
-            # print(response.choices)
-            # print(response.choices[0])
-            # print(response.choices[0].message.content)
-            # choice = response.choices[0]
-            # data = choice.message
-            # print("data:", data)
-            # print(response.choices[0].message)
             data = json.loads(response.choices[0].message.content)
             print(data)
             self.displayData(data)
@@ -218,6 +208,6 @@ class RunAIAssistantCommand(Command):
             for note in data["notes"]:
                 print(f"Title: {note['title']}, Content: {note['content']}, Tags: {', '.join(note['tags'])}")
             else:
-                if not data["contacts"]:
+                if not data.get("contacts"):
                    print("No contacts or notes available.")
        
