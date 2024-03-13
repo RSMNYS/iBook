@@ -1,11 +1,14 @@
 from abc import ABC, abstractmethod
+import asyncio
 
 from decorators.input_error_decorator import input_error
 from address_book.address_book import AddressBook
 from address_book.record import Record
 from address_book.utils import validate_date_format
 from src.constants import *
-from prompts.field import NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt, AddressPrompt
+from prompts.field import NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt, AddressPrompt, AIPrompt
+
+from services.ai_service import create_chat_completion
 
 
 class Command(ABC):
@@ -37,6 +40,8 @@ class AddContactCommand(Command):
             record.add_address(address.field)
 
         address_book.add_record(record)
+        
+        print('record is added')
 
 
 class ChangePhoneCommand(Command):
@@ -118,3 +123,28 @@ class ShowBirthdaysCommand(Command):
 
     def get_input(self, prompt):
         return input(prompt)
+    
+
+class RunAIAssistantCommand(Command):
+    
+    def execute(self, address_book: AddressBook):
+        prompt = AIPrompt()
+
+        system_instruction = f"You have this data structure: {str(address_book)}. Your task is to properly answer the questions, and return the json object"
+
+        messages = [
+            {"role": "system", "content": system_instruction},
+            {"role": "user", "content": prompt.field}
+        ]
+        
+        print(messages)
+        
+        # response = asyncio.run(self.create_chat_completion(messages=messages))
+        response = create_chat_completion(messages=messages)
+        print(response)
+        
+        prompt = AIPrompt()
+    
+    async def create_chat_completion(self, messages):
+        return await create_chat_completion(messages=messages)
+        

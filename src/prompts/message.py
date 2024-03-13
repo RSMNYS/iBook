@@ -6,3 +6,4 @@ class PromptMessage:
     EMAIL = "Enter email, press enter to skip: "
     BIRTHDAY = "Birthday in format ('DD.MM.YYYY'), press enter to skip: "
     ADDRESS = "Enter the address, press enter to skip: "
+    AI = "Your question: "

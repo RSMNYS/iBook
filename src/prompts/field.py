@@ -64,3 +64,10 @@ class AddressPrompt(Prompt):
 
     def validate(self):
         ...
+
+@dataclass
+class AIPrompt(Prompt):
+    prompt: str = PromptMessage.AI
+    
+    def validate(self):
+        ...
