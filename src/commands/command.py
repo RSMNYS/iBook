@@ -6,6 +6,7 @@ from address_book.record import Record
 from address_book.utils import validate_date_format
 
 
+
 class Command(ABC):
     @abstractmethod
     def execute(self):
