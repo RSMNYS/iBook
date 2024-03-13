@@ -2,6 +2,8 @@ from collections import UserDict
 from typing import List
 from address_book.record import Record
 from address_book.utils import display_birthdays_per_week as display_birthdays_per_week
+from exceptions.validation import ContactNameNotFoundException
+
 
 class AddressBook(UserDict):
 
@@ -16,10 +18,19 @@ class AddressBook(UserDict):
         self.data[record.name.value] = record
 
     def find(self, name) -> Record:
-        return self.data[name]
+        try:
+            return self.data[name]
+        except KeyError:
+            raise ContactNameNotFoundException(name)
     
     def delete(self, name):
-        self.data.pop(name)
+        try:
+            self.data.pop(name)
+        except KeyError:
+            raise ContactNameNotFoundException(name)
+
+    def get(self, key, default=None) -> Record:
+        return super().get(key, default)
 
     def show_birthdays_per_week(self, days_in_advance):
         display_birthdays_per_week(self.records, days_in_advance)

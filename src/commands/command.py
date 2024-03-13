@@ -3,9 +3,11 @@ from abc import ABC, abstractmethod
 from decorators.input_error_decorator import input_error
 from address_book.address_book import AddressBook
 from address_book.record import Record
-from address_book.utils import validate_date_format
 from src.constants import *
-from prompts.field import NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt, AddressPrompt
+from exceptions.validation import (BaseValidationException, ContactNameNotFoundException,
+                                   ContactNameAlreadyExistsException)
+from prompts.field import (NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt,
+                           AddressPrompt, RemoveNamePrompt, EditNamePrompt, EditContactPrompt)
 
 
 class Command(ABC):
@@ -22,6 +24,13 @@ class HelloCommand(Command):
 class AddContactCommand(Command):
     
     def execute(self, address_book: AddressBook):
+        try:
+            self._add_new_contact(address_book)
+        except BaseValidationException as e:
+            print(e)
+
+    @staticmethod
+    def _add_new_contact(address_book: AddressBook):
         record = Record(NamePrompt().field)
         record.add_phone(PhonePrompt().field)
 
@@ -118,3 +127,46 @@ class ShowBirthdaysCommand(Command):
 
     def get_input(self, prompt):
         return input(prompt)
+
+
+class RemoveContactCommand(Command):
+
+    def execute(self, address_book: AddressBook):
+        try:
+            address_book.delete(RemoveNamePrompt().field)
+        except BaseValidationException as e:
+            print(e)
+        else:
+            print("Contact is deleted")
+
+
+class EditContactCommand(Command):
+
+    def execute(self, address_book: AddressBook):
+        try:
+            self._edit_contact(address_book)
+        except BaseValidationException as e:
+            print(e)
+        else:
+            print("Contact is updated")
+
+    @staticmethod
+    def _edit_contact(address_book: AddressBook):
+        existing_name = EditNamePrompt().field
+        record = address_book.get(existing_name)
+        if not record:
+            raise ContactNameNotFoundException(existing_name)
+
+        edit = EditContactPrompt()
+
+        if edit.attribute == 'name':
+            if edit.field == existing_name:
+                raise ContactNameAlreadyExistsException(edit.field)
+            record.name.value = edit.field
+            address_book.pop(existing_name)
+            address_book.add_record(record)
+
+        elif edit.attribute == 'phone':
+            record.phones.clear()
+            for phone in edit.field.split(','):
+                record.add_phone(phone)

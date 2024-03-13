@@ -1,6 +1,8 @@
 from typing import Dict
-from commands.command import AddBirthdayCommand, AddContactCommand, AllContactsCommand, ChangePhoneCommand, ContactPhoneCommand, HelloCommand, ShowBirthdayCommand, ShowBirthdaysCommand
 from commands.command import Command
+from commands.command import (AddBirthdayCommand, AddContactCommand, AllContactsCommand, ChangePhoneCommand,
+                              ContactPhoneCommand, HelloCommand, ShowBirthdayCommand, ShowBirthdaysCommand,
+                              RemoveContactCommand, EditContactCommand)
 
 
 class CommandDispatcher:
@@ -8,6 +10,8 @@ class CommandDispatcher:
         self.commands: Dict[str, Command] = {
             "hello": HelloCommand(),
             "add-contact": AddContactCommand(),
+            "remove-contact": RemoveContactCommand(),
+            "edit-contact": EditContactCommand(),
             "change": ChangePhoneCommand(),
             "phone": ContactPhoneCommand(),
             "all": AllContactsCommand(),
