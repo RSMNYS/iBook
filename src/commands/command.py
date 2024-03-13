@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import json
 
 from decorators.input_error_decorator import input_error
 from address_book.address_book import AddressBook
@@ -177,13 +178,46 @@ class RunAIAssistantCommand(Command):
     
     def execute(self, address_book: AddressBook):
         prompt = AIPrompt()
-        system_instruction = f"You have this data structure: {str(address_book)}. Your task is to properly answer the questions, and return the json object"
+        system_instruction = "Given a JSON structure containing 'contacts' and 'notes', filter the data based on specified criteria (e.g., phone numbers starting with a certain digit, substrings in names, titles, or specific words in tags/content). Return the data in the same structure, under the original 'contacts' and 'notes' keys, respectively. Ensure empty arrays are returned for no matches and omit incomplete entries without altering the structure."
         
-        while prompt.value != 'exit':
-            messages = [{"role": "system", "content": system_instruction}, {"role": "user", "content": prompt.field}]
+        # print(system_instruction)
+        
+        while prompt.field != 'exit':
+            data_str = f"{str(address_book)}"
+            data_str = data_str + f"\n\nQ{prompt.field}"
+            print(data_str)
+            messages = [{"role": "system", "content": system_instruction}, {"role": "user", "content": data_str}]
+            
+            
+            # print(messages)
         
             response = create_chat_completion(messages=messages)
-            print(response)
+            # print(response)
+            # print(response.choices)
+            # print(response.choices[0])
+            # print(response.choices[0].message.content)
+            # choice = response.choices[0]
+            # data = choice.message
+            # print("data:", data)
+            # print(response.choices[0].message)
+            data = json.loads(response.choices[0].message.content)
+            print(data)
+            self.displayData(data)
         
             prompt = AIPrompt()
+            
+    def displayData(self, data):
+        if data.get("contacts"):
+            print("Contacts:")
+            for contact in data["contacts"]:
+                print(f"Name: {contact['name']}, Phone: {', '.join(contact['phones'])}, "
+                f"Birthday: {contact['birthday']}, Email: {contact['email']}, Address: {contact['address']}")
+
+        if data.get("notes"):
+            print("\nNotes:")
+            for note in data["notes"]:
+                print(f"Title: {note['title']}, Content: {note['content']}, Tags: {', '.join(note['tags'])}")
+            else:
+                if not data["contacts"]:
+                   print("No contacts or notes available.")
        

@@ -19,7 +19,7 @@ class CommandDispatcher:
             "add-birthday": AddBirthdayCommand(),
             "show-birthday": ShowBirthdayCommand(),
             "birthdays": ShowBirthdaysCommand(),
-            "ai-assistant": RunAIAssistantCommand()
+            "ai": RunAIAssistantCommand()
         }
     
     def dispatch(self, command_name, *args, **kwargs):
