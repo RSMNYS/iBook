@@ -3,18 +3,15 @@ from collections import UserDict
 
 
 class Notes(UserDict):
-
+    
     def __init__(self, title="Untitled"):
         super().__init__()
         self.title = Note_Title(title)
-        self.content = None
-        self.tags = []
 
     def edit_title(self, title, new_title):
-        for key in self.data.keys():
-            if key == title:
-                self.data[new_title] = self.data.pop(title)
-                self.data[new_title].title = Note_Title(new_title)
+        if title in self.data:
+            self.data[new_title] = self.data.pop(title)
+            self.data[new_title].title = Note_Title(new_title)
 
     def add_note(self, title, content):
         self.data[title] = Note_Content(content)
@@ -36,14 +33,12 @@ class Notes(UserDict):
         results = []
         for title, content in self.data.items():
             if query.lower() in title.lower():
-                results.append((title, content, self.tags))
+                results.append((title, content))
         return results
 
 
 class Tags:
-
     def __init__(self):
-        super().__init__()
         self.tags = []
 
     def add_tags(self, tag):
@@ -57,12 +52,13 @@ class Tags:
         except ValueError:
             print(f"Error: Note with tag '{old_tag}' not found.")
 
-    def search_by_tag(self, tag):
+    def search_by_tag(self, tag, notes):
         results = []
-        for title, content in self.data.items():
-            if tag in self.tags():
-                results.append((title, content, self.tags))
+        for title, content in notes.items():
+            if tag in self.tags:
+                results.append((title, content))
         return results
+
 
 if __name__ == "__main__":
     print('main')
