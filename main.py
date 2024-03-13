@@ -3,7 +3,8 @@ sys.path.append('src/')
 
 from dotenv import load_dotenv
 load_dotenv()
-
+from prompt_toolkit import prompt
+from services.autocompleter_service import Completer, RainbowLexer
 from address_book.address_book import AddressBook
 from commands.command_dispatcher import CommandDispatcher
 from constants import COMMANDS_DESCRIPTION
@@ -16,7 +17,7 @@ def main():
     print("Welcome to the assistant bot!")
    
     while True:
-        user_input = input("Enter a command: ")
+        user_input = prompt("Enter a command: ", completer=Completer, lexer=RainbowLexer())
         if len(user_input) == 0:
             continue
         
