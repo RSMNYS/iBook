@@ -21,7 +21,7 @@ class Prompt:
 
 @dataclass
 class NamePrompt(Prompt):
-    prompt: str = PromptMessage.NAME
+    prompt: str = PromptMessage.ADD_CONTACT_NAME
 
     def validate(self):
         if len(self.field) < 5:
@@ -30,7 +30,7 @@ class NamePrompt(Prompt):
 
 @dataclass
 class PhonePrompt(Prompt):
-    prompt: str = PromptMessage.PHONE
+    prompt: str = PromptMessage.ADD_CONTACT_PHONE
 
     def validate(self):
         if not re.match(r"\d{10,}", self.field):
@@ -39,7 +39,7 @@ class PhonePrompt(Prompt):
 
 @dataclass
 class EmailPrompt(Prompt):
-    prompt: str = PromptMessage.EMAIL
+    prompt: str = PromptMessage.ADD_CONTACT_EMAIL
 
     def validate(self):
         if self.field and not re.match(r"[^@]+@[^@]+\.[^@]+", self.field):
@@ -48,7 +48,7 @@ class EmailPrompt(Prompt):
 
 @dataclass
 class BirthdayPrompt(Prompt):
-    prompt: str = PromptMessage.BIRTHDAY
+    prompt: str = PromptMessage.ADD_CONTACT_BIRTHDAY
 
     def validate(self):
         if self.field:
@@ -60,10 +60,53 @@ class BirthdayPrompt(Prompt):
 
 @dataclass
 class AddressPrompt(Prompt):
-    prompt: str = PromptMessage.ADDRESS
+    prompt: str = PromptMessage.ADD_CONTACT_ADDRESS
 
     def validate(self):
         ...
+        
+@dataclass
+class RemoveNamePrompt(NamePrompt):
+    prompt: str = PromptMessage.REMOVE_CONTACT_NAME
+
+
+@dataclass
+class EditNamePrompt(NamePrompt):
+    prompt: str = PromptMessage.EDIT_CONTACT_NAME
+
+
+@dataclass
+class EditNewNamePrompt(NamePrompt):
+    prompt: str = PromptMessage.EDIT_CONTACT_NEW_NAME
+
+
+@dataclass
+class EditNewPhonePrompt(Prompt):
+    prompt: str = PromptMessage.EDIT_CONTACT_NEW_PHONE
+
+    def validate(self):
+        phones = sorted(set([p.strip() for p in self.field.split(',') if p.strip()]))
+        for phone in phones:
+            if not re.match(r"\d{10,}", phone):
+                raise WrongPhoneFormatException(phone)
+        self.field = ','.join(phones)
+
+
+@dataclass
+class EditContactPrompt(Prompt):
+    prompt: str = PromptMessage.EDIT_CONTACT_INFO
+    attribute: str = field(init=False, default="")
+
+    def validate(self):
+        if self.field.lower() == "name":
+            self.attribute = self.field.lower()
+            self.field = EditNewNamePrompt().field
+        elif self.field.lower() == 'phone':
+            self.attribute = self.field.lower()
+            self.field = EditNewPhonePrompt().field
+        else:
+            raise UnsupportedEditAttributeException(self.field)
+        
 
 @dataclass
 class AIPrompt(Prompt):
@@ -71,3 +114,4 @@ class AIPrompt(Prompt):
     
     def validate(self):
         ...
+

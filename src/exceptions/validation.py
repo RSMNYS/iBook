@@ -21,3 +21,15 @@ class WrongPhoneFormatException(BaseValidationException):
 
 class WrongDateFormatException(BaseValidationException):
     error = "Contact birthday format '{item}' is not correct"
+
+
+class ContactNameNotFoundException(BaseValidationException):
+    error = "Contact name '{item}' does not exist in the address book"
+
+
+class ContactNameAlreadyExistsException(BaseValidationException):
+    error = "Contact name '{item}' already exists in the address book"
+
+
+class UnsupportedEditAttributeException(BaseValidationException):
+    error = "Contact attribute '{item}' is not found or not supported for editing"
