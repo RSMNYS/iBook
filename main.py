@@ -17,6 +17,9 @@ def main():
    
     while True:
         user_input = input("Enter a command: ")
+        if len(user_input) == 0:
+            continue
+        
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit"]:

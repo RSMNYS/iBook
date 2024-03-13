@@ -18,6 +18,9 @@ close або exit: Закрити програму.
 NO_BIRTHDAYS_MESSAGE = "No birthdays for the next {n} days to be notified about"
 UPCOMING_BIRTHDAYS_MESSAGE = "Specify days in advance for upcoming birthdays: "
 EMPTY_DAYS_ERROR_MESSAGE = "Error: Days in advance can't be empty."
+CONTACT_IS_ADDED_MESSAGE = "Contact is added."
 
 FILE_PATH_BOOK = os.path.abspath('address_book.json')
 FILE_PATH_NOTES = os.path.abspath('notes.json')
+
+
