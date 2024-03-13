@@ -49,6 +49,7 @@ class AddContactCommand(Command):
             record.add_address(address.field)
 
         address_book.add_record(record)
+        print(CONTACT_IS_ADDED_MESSAGE)
 
 
 class ChangePhoneCommand(Command):
