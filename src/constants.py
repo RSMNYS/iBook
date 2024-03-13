@@ -25,6 +25,7 @@ FILE_PATH_NOTES = os.path.abspath('notes.json')
 
 SEARCH_CONTACTS_INSTRUCTION_MESSAGE = """
 Search Parameters:
+
 1. Search by Name
 2. Search by Phone Number
 3. Search by Email

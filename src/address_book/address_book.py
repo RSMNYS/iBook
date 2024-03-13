@@ -5,6 +5,7 @@ from typing import List
 from pprint import pprint
 
 import constants
+from address_book.address_book_searcher import AddressBookSearcher
 from address_book.record import Record
 from address_book.utils import display_birthdays_per_week as display_birthdays_per_week
 from exceptions.validation import ContactNameNotFoundException
@@ -66,3 +67,7 @@ class AddressBook(UserDict):
 
     def show(self):
         pprint([r.to_dict() for r in self.records])
+
+    def search(self, parameter, query: str) -> List[Record]:
+        searcher = AddressBookSearcher()
+        return searcher.search_contact(self, parameter, query)

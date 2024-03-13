@@ -220,8 +220,9 @@ class SearchContactsCommand(Command):
         self._search_contact(search_parameter, query, address_book)
 
     def _search_contact(self, search_parameter, query, address_book: AddressBook):
-        result = address_book.search_contact(search_parameter, query)
-        print(result)
+        result = address_book.search(search_parameter, query)
+        for contact in result:
+            print(contact.name, contact.email, contact)
 
     def get_input(self, prompt):
         return input(prompt)
