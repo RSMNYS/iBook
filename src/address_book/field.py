@@ -16,3 +16,7 @@ class Phone(Field):
 class Birthday(Field):
     def __init__(self, field):
         super().__init__(field)
+
+class Notebook(Field):
+    def __init__(self, field):
+        super().__init__(field)
