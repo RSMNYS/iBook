@@ -11,3 +11,4 @@ class PromptMessage:
     EDIT_CONTACT_INFO = "What would you like to edit:\n1. Name\n2. Phone\n"
     EDIT_CONTACT_NEW_NAME = "Enter the new name for the contact: "
     EDIT_CONTACT_NEW_PHONE = "Enter comma-separated phones for the contact: "
+    AI = "Your question: "

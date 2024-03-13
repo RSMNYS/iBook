@@ -64,8 +64,7 @@ class AddressPrompt(Prompt):
 
     def validate(self):
         ...
-
-
+        
 @dataclass
 class RemoveNamePrompt(NamePrompt):
     prompt: str = PromptMessage.REMOVE_CONTACT_NAME
@@ -107,3 +106,12 @@ class EditContactPrompt(Prompt):
             self.field = EditNewPhonePrompt().field
         else:
             raise UnsupportedEditAttributeException(self.field)
+        
+
+@dataclass
+class AIPrompt(Prompt):
+    prompt: str = PromptMessage.AI
+    
+    def validate(self):
+        ...
+

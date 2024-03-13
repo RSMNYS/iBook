@@ -1,6 +1,9 @@
 import sys
 sys.path.append('src/')
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from address_book.address_book import AddressBook
 from commands.command_dispatcher import CommandDispatcher
 from constants import COMMANDS_DESCRIPTION

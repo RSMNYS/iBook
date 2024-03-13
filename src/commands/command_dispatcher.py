@@ -1,8 +1,9 @@
 from typing import Dict
+
 from commands.command import Command
 from commands.command import (AddBirthdayCommand, AddContactCommand, AllContactsCommand, ChangePhoneCommand,
                               ContactPhoneCommand, HelloCommand, ShowBirthdayCommand, ShowBirthdaysCommand,
-                              RemoveContactCommand, EditContactCommand)
+                              RemoveContactCommand, EditContactCommand, RunAIAssistantCommand)
 
 
 class CommandDispatcher:
@@ -17,7 +18,8 @@ class CommandDispatcher:
             "all": AllContactsCommand(),
             "add-birthday": AddBirthdayCommand(),
             "show-birthday": ShowBirthdayCommand(),
-            "birthdays": ShowBirthdaysCommand()
+            "birthdays": ShowBirthdaysCommand(),
+            "ai": RunAIAssistantCommand()
         }
     
     def dispatch(self, command_name, *args, **kwargs):
