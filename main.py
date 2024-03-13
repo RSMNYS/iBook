@@ -11,7 +11,7 @@ from parsers.input_parser import parse_input
 
 
 def main():
-    book = AddressBook()
+    book = AddressBook.load()
     dispatcher = CommandDispatcher()
     print("Welcome to the assistant bot!")
    
@@ -29,6 +29,7 @@ def main():
             print(COMMANDS_DESCRIPTION)
             continue
         dispatcher.dispatch(command, *args, address_book=book)
+        book.save()
 
 
 if __name__ == "__main__":

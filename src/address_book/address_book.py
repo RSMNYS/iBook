@@ -1,7 +1,10 @@
+import os
 import json
-
 from collections import UserDict
 from typing import List
+from pprint import pprint
+
+import constants
 from address_book.record import Record
 from address_book.utils import display_birthdays_per_week as display_birthdays_per_week
 from exceptions.validation import ContactNameNotFoundException
@@ -38,18 +41,24 @@ class AddressBook(UserDict):
         display_birthdays_per_week(self.records, days_in_advance)
 
     def __str__(self):
-        contacts_list = []
-        for record in self.records:
-            # Collecting each contact's information in a dict
-            contact_info = {
-                'name': record.name.value,
-                'phones': [phone.value for phone in record.phones],
-                'birthday': record.birthday.value if record.birthday else '',
-                'email': record.email.value if record.email else '',
-                'address': record.address.value if record.address else '',
-            }
-            contacts_list.append(contact_info)
+        return f'{[str(record) for record in self.records]}'
 
-        # Constructing the desired JSON-like string
-        result_dict = {'contacts': contacts_list}
-        return json.dumps(result_dict, ensure_ascii=False)
+    @classmethod
+    def load(cls) -> 'AddressBook':
+        data = []
+        if os.path.exists(constants.FILE_PATH_BOOK):
+            with open(constants.FILE_PATH_BOOK, 'r') as f:
+                data.extend(json.load(f))
+
+        address_book = cls()
+        for record in data:
+            address_book.add_record(Record.from_dict(record))
+
+        return address_book
+
+    def save(self):
+        with open(constants.FILE_PATH_BOOK, 'w') as f:
+            json.dump([r.to_dict() for r in self.records], f, indent=4)
+
+    def show(self):
+        pprint([r.to_dict() for r in self.records])
