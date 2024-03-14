@@ -39,8 +39,11 @@ class SearchNoteByTilte(Command):
         
         if search_prompt.field:
             result = notes.search_by_title(search_prompt.field)
-        for note in result:
-            print(note.__str__)
+        
+        if not result:
+            print(f"No notes found with title '{search_prompt.field}'.")
+        else:
+            [print(note.__str__) for note in result]
 
 class SearchNoteByTagCommand(Command):
 
@@ -53,12 +56,16 @@ class SearchNoteByTagCommand(Command):
             
     @staticmethod
     def _search(notes: Notes):
+        result = []
         search_prompt = SearchNoteByTagPrompt()
         
         if search_prompt.field:
             result = notes.search_by_tag(search_prompt.field)
-        for note in result:
-            print(note.__str__)
+        
+        if not result:
+            print(f"No notes found with tag '{search_prompt.field}'.")
+        else:
+            [print(note.__str__) for note in result]
 
 # class EditNoteCommand(Command):
 
