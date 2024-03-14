@@ -6,7 +6,7 @@ class AddNoteCommand(Command):
     def execute(self, *args, **kwargs):
         title = input("Enter the title of the note: ")
         content = input("Enter the content of the note: ")
-        kwargs['notes'].add_note(title, content)
+        kwargs.get('notes').add_note(title, content)
         print("Note added.")
 
 class EditNoteCommand(Command):
@@ -14,17 +14,17 @@ class EditNoteCommand(Command):
     def execute(self, *args, **kwargs):
         title = input("Enter the title of the note to edit: ")
         new_content = input("Enter the new content of the note: ")
-        kwargs['notes'].edit_note(title, new_content)
+        kwargs.get('notes').edit_note(title, new_content)
 
 class DeleteNoteCommand(Command):
     def execute(self, *args, **kwargs):
         title = input("Enter the title of the note to delete: ")
-        kwargs['notes'].delete_notebook(title)
+        kwargs.get('notes').delete_notebook(title)
 
 class SearchNoteByTitleCommand(Command):
     def execute(self, *args, **kwargs):
         query = input("Enter the query to search by title: ")
-        results = kwargs['notes'].search_by_title(query)
+        results = kwargs.get('notes').search_by_title(query)
         if results:
             print("Search results:")
             for result in results:
