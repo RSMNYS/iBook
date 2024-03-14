@@ -1,0 +1,29 @@
+[
+    {
+        "name": "Julia",
+        "phones": [
+            "0932612725"
+        ],
+        "birthday": "05.08.1988",
+        "email": "juliavorotchenko@gmail.com",
+        "address": "Dragomanova 2b"
+    },
+    {
+        "name": "Yurii",
+        "phones": [
+            "1234554321"
+        ],
+        "birthday": "16.01.1995",
+        "email": "yurii@gmail.com",
+        "address": "lesi ukrainky 23"
+    },
+    {
+        "name": "Alinka",
+        "phones": [
+            "6666666666"
+        ],
+        "birthday": "21.06.1989",
+        "email": "alinka@gmail.com",
+        "address": "Vushneve 23"
+    }
+]
