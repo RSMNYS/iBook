@@ -23,6 +23,34 @@ class AddNoteCommand(Command):
         notes.add_note(note)
         print(get_text("NOTE_IS_ADDED"))
 
+class SearchNoteByTilte(Command):
+
+    def execute(self, **kwargs):
+        notes = kwargs.get('notes', )
+        try:
+            self._search(notes)
+        except ExitFromUserPrompt:
+            print("notes search error")
+            
+    @staticmethod
+    def _search(notes: Notes):
+        title = TitlePrompt()
+        print("SearchNoteByTilte")
+
+class SearchNoteByTagCommand(Command):
+
+    def execute(self, **kwargs):
+        notes = kwargs.get('notes', )
+        try:
+            self._search(notes)
+        except ExitFromUserPrompt:
+            print("notes search error")
+            
+    @staticmethod
+    def _search(notes: Notes):
+        title = TagPrompt()
+        print("SearchNoteByTagCommand")
+
 # class EditNoteCommand(Command):
 
 #     def execute(self, *args, **kwargs):
