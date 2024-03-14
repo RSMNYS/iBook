@@ -49,7 +49,7 @@ class DeleteNoteCommand(Command):
         try:
             notes = kwargs.get('notes', {})
             title_to_delete = TitlePrompt().field
-            notes.data.pop(title_to_delete)
+            notes.delete_note(title_to_delete)
             print(get_text("NOTE_IS_DELETED"))
         except KeyError:
             print(get_text("NOTE_NOT_FOUND")) 
