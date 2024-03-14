@@ -3,8 +3,7 @@ from exceptions.common import ExitFromUserPrompt
 from localization import get_text
 from notes_book.note import Note
 from notes_book.notes import Notes
-from notes_book.notes_prompts import ContentPrompt, TagPrompt, TitlePrompt
-from exceptions.validation import ContactNameNotFoundException
+from notes_book.notes_prompts import ContentPrompt, TagPrompt, TitlePrompt, SearchNoteByTagPrompt, SearchNoteByTitlePrompt
 
 class AddNoteCommand(Command):
 
@@ -24,7 +23,44 @@ class AddNoteCommand(Command):
         notes.add_note(note)
         print(get_text("NOTE_IS_ADDED"))
 
-class EditNoteCommand(Command):
+class SearchNoteByTilte(Command):
+
+    def execute(self, **kwargs):
+        notes = kwargs.get('notes', )
+        try:
+            self._search(notes)
+        except ExitFromUserPrompt:
+            print("notes search error")
+            
+    @staticmethod
+    def _search(notes: Notes):
+        result = []
+        search_prompt = SearchNoteByTitlePrompt()
+        
+        if search_prompt.field:
+            result = notes.search_by_title(search_prompt.field)
+        for note in result:
+            print(note.title)
+
+class SearchNoteByTagCommand(Command):
+
+    def execute(self, **kwargs):
+        notes = kwargs.get('notes', )
+        try:
+            self._search(notes)
+        except ExitFromUserPrompt:
+            print("notes search error")
+            
+    @staticmethod
+    def _search(notes: Notes):
+        search_prompt = SearchNoteByTagPrompt()
+        
+        if search_prompt.field:
+            result = notes.search_by_tag(search_prompt.field)
+        for note in result:
+            print(note.title)
+
+# class EditNoteCommand(Command):
 
     def execute(self, **kwargs):
         notes = kwargs.get('notes')

@@ -7,6 +7,8 @@ class NotePromptMessages:
     ADD_NOTE_TITLE = "Enter the title or type 'Exit' to switch on main prompt: "
     ADD_NOTE_CONTENT = "Enter the content or type 'Exit' to switch on main prompt: "
     ADD_TAG = "Enter the tag or type 'Exit' to switch on main prompt: "
+    SEARCH_NOTE_BY_TAG = "Enter the tag you want to search or type 'Exit' to return to the main prompt: "
+    SEARCH_NOTE_BY_TITLE = "Enter the title you want to search or type 'Exit' to return to the main prompt: "
 
 
 @dataclass
@@ -28,5 +30,31 @@ class ContentPrompt(Prompt):
 class TagPrompt(Prompt):
     prompt: str = NotePromptMessages.ADD_TAG
 
+    def validate(self):
+        ...
+@dataclass
+class SearchNoteByTagPrompt(Prompt):
+    prompt: str = NotePromptMessages.SEARCH_NOTE_BY_TAG
+    
+    def validate(self):
+        ...
+
+@dataclass
+class SearchNoteByTitlePrompt(Prompt):
+    prompt: str = NotePromptMessages.SEARCH_NOTE_BY_TITLE
+    
+    def validate(self):
+        ...
+@dataclass
+class SearchNoteByTagPrompt(Prompt):
+    prompt: str = NotePromptMessages.SEARCH_NOTE_BY_TAG
+    
+    def validate(self):
+        ...
+
+@dataclass
+class SearchNoteByTitlePrompt(Prompt):
+    prompt: str = NotePromptMessages.SEARCH_NOTE_BY_TITLE
+    
     def validate(self):
         pass
