@@ -50,7 +50,7 @@ class AddContactCommand(Command):
             record.add_address(address.field)
 
         address_book.add_record(record)
-        print(CONTACT_IS_ADDED_MESSAGE)
+        print(get_text("CONTACT_IS_ADDED_MESSAGE"))
 
 
 class ChangePhoneCommand(Command):
@@ -65,7 +65,7 @@ class ChangePhoneCommand(Command):
         record = address_book.find(name)
         record.phones.clear()
         record.add_phone(phone)
-        print(UPDATED_PHONE)
+        print(get_text("UPDATED_PHONE"))
 
 
 class ContactPhoneCommand(Command):
@@ -98,7 +98,7 @@ class AddBirthdayCommand(Command):
         birthday = BirthdayPrompt()
         if birthday.field:
             record.add_birthday(birthday.field)
-            print(BIRTHDAY_UPDATED)
+            print(get_text("BIRTHDAY_UPDATED"))
        
 
 class ShowBirthdayCommand(Command):
@@ -118,9 +118,9 @@ class ShowBirthdayCommand(Command):
 class ShowBirthdaysCommand(Command):
 
     def execute(self, address_book):
-        days_in_advance = self.get_input(UPCOMING_BIRTHDAYS_MESSAGE)
+        days_in_advance = self.get_input(get_text("UPCOMING_BIRTHDAYS_MESSAGE"))
         if not days_in_advance:
-            print(EMPTY_DAYS_ERROR_MESSAGE)
+            print(get_text("EMPTY_DAYS_ERROR_MESSAGE"))
             return
 
         self._show_birthdays(address_book, days_in_advance)
@@ -144,7 +144,7 @@ class RemoveContactCommand(Command):
         except ExitFromUserPrompt:
             print("Contact is not deleted")
         else:
-            print(CONTACT_IS_DELETED)
+            print(get_text("CONTACT_IS_DELETED"))
 
 
 class EditContactCommand(Command):
@@ -158,7 +158,7 @@ class EditContactCommand(Command):
         except ExitFromUserPrompt:
             print("Contact is not updated")
         else:
-            print(CONTACT_IS_UPDATED)
+            print(get_text("CONTACT_IS_UPDATED"))
 
     @staticmethod
     def _edit_contact(address_book: AddressBook):
@@ -202,16 +202,16 @@ class RunAIAssistantCommand(Command):
             
     def displayData(self, data):
         if data.get("contacts"):
-            print(CONTACTS)
+            print(get_text("CONTACTS"))
             for contact in data["contacts"]:
                 print(f"Name: {contact['name']}, Phone: {', '.join(contact['phones'])}, "
                 f"Birthday: {contact['birthday']}, Email: {contact['email']}, Address: {contact['address']}")
 
         if data.get("notes"):
-            print(NOTES)
+            print(get_text("NOTES"))
             for note in data["notes"]:
                 print(f"Title: {note['title']}, Content: {note['content']}, Tags: {', '.join(note['tags'])}")
             else:
                 if not data.get("contacts"):
-                   print(NO_CONTACTS_OR_NOTES)
+                   print(get_text("NO_CONTACTS_OR_NOTES"))
        
