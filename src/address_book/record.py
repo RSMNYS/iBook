@@ -1,6 +1,4 @@
 from address_book.field import Name, Phone, Birthday, Email, Address
-from constants import MAIN
-
 
 class Record:
     def __init__(self, name):
@@ -63,7 +61,3 @@ class Record:
         if data['address']:
             record.add_address(data['address'])
         return record
-
-
-if __name__ == "__main__":
-    print(MAIN)

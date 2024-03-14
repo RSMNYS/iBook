@@ -11,6 +11,7 @@ from prompts.field import (NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt,
                            AddressPrompt, RemoveNamePrompt, EditNamePrompt, EditContactPrompt, AIPrompt)
 
 from services.ai_service import create_chat_completion
+from localization import get_text
 
 
 
@@ -22,7 +23,7 @@ class Command(ABC):
 
 class HelloCommand(Command):
     def execute(self):
-        print(HELP)
+        print(get_text("HELP"))
 
 
 class AddContactCommand(Command):

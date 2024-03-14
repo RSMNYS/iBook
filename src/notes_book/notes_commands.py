@@ -1,6 +1,6 @@
 from address_book.field import Note_Tag
 from commands.command import Command
-from constants import ADD_NOTE, SEARCH_RESULTS, NO_NOTES_FOUND, TAGS_ADDED, NO_NOTES_FOUND_BY_TAG 
+from localization import get_text
 
 class AddNoteCommand(Command):
 
@@ -8,7 +8,7 @@ class AddNoteCommand(Command):
         title = input("Enter the title of the note: ")
         content = input("Enter the content of the note: ")
         kwargs['notes'].add_note(title, content)
-        print(ADD_NOTE)
+        print(get_text("ADD_NOTE"))
 
 class EditNoteCommand(Command):
 
@@ -27,11 +27,11 @@ class SearchNoteByTitleCommand(Command):
         query = input("Enter the query to search by title: ")
         results = kwargs['notes'].search_by_title(query)
         if results:
-            print(SEARCH_RESULTS)
+            print(get_text("SEARCH_RESULTS"))
             for result in results:
                 print(result)
         else:
-            print(NO_NOTES_FOUND)
+            print(get_text("NO_NOTES_FOUND"))
 
 
 class AddTagCommand(Command):
@@ -41,7 +41,7 @@ class AddTagCommand(Command):
         tags = [tag.strip() for tag in tags_input.split(",")]
         for tag in tags:
             kwargs['tag_manager'].add_tag(tag)
-        print(TAGS_ADDED)
+        print(get_text("TAGS_ADDED"))
         
 class EditTagCommand(Command):
 
@@ -56,8 +56,8 @@ class SearchNoteByTagCommand(Command):
         tag = input("Enter the tag to search by: ")
         results = kwargs['notes'].search_by_tag(tag)
         if results:
-            print(SEARCH_RESULTS)
+            print(get_text("SEARCH_RESULTS"))
             for result in results:
                 print(result)
         else:
-            print(NO_NOTES_FOUND_BY_TAG)
+            print(get_text("NO_NOTES_FOUND_BY_TAG"))

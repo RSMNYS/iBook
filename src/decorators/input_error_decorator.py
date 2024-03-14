@@ -1,10 +1,11 @@
-from constants import MISSED_PARAMS
+from localization import get_text
+
 def input_error(func):
 
     def inner(self, *args, **kwargs):
         try: 
             if len(args) < 2:
-                print(MISSED_PARAMS)
+                print(get_text("MISSED_PARAMS"))
                 return
             return func(self, *args, **kwargs)
         except ValueError as error:
