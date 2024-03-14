@@ -61,16 +61,18 @@ class Notes(UserDict):
         with open(constants.FILE_PATH_NOTES, 'w') as f:
             json.dump([r.to_dict() for r in self.notes], f, indent=4)
     
-    def search_by_tag(self, tag: str) -> List[Note]:
+    def search_by_tag(self, tag_query: str) -> List[Note]:
         matching_notes = []
         for note in self.notes:
-            if tag in note.tags:
-                matching_notes.append(note)
+            for tag in note.tags:
+                if tag_query.lower() in tag.value.lower():
+                    matching_notes.append(note)
+                    break
         return matching_notes
 
-    def search_by_title(self, title: str) -> List[Note]:
+    def search_by_title(self, title_query: str) -> List[Note]:
         matching_notes = []
         for note in self.notes:
-            if note.title.value == title:
+            if title_query.lower() in note.title.value.lower():
                 matching_notes.append(note)
         return matching_notes
