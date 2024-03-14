@@ -4,6 +4,7 @@ from localization import get_text
 from notes_book.note import Note
 from notes_book.notes import Notes
 from notes_book.notes_prompts import ContentPrompt, TagPrompt, TitlePrompt
+from exceptions.validation import ContactNameNotFoundException
 
 class AddNoteCommand(Command):
 
@@ -45,20 +46,16 @@ class EditNoteCommand(Command):
 class DeleteNoteCommand(Command):
 
     def execute(self, **kwargs):
-        notes = kwargs.get('notes')
         try:
-            self._delete_note(notes)
+            notes = kwargs.get('notes', {})
+            title_to_delete = TitlePrompt().field
+            notes.data.pop(title_to_delete)
+            print(get_text("NOTE_IS_DELETED"))
+        except KeyError:
+            print(get_text("NOTE_NOT_FOUND")) 
         except ExitFromUserPrompt:
             print(get_text("NOTE_IS_NOT_DELETED"))
 
-    @staticmethod
-    def _delete_note(notes: Notes):
-        title_to_delete = TitlePrompt().field
-        if title_to_delete in notes:
-            notes.delete_note(title_to_delete)
-            print(get_text("NOTE_IS_DELETED"))
-        else:
-            print(get_text("NOTE_NOT_FOUND"))
 
 # class SearchNoteByTitleCommand(Command):
 #     def execute(self, *args, **kwargs):
