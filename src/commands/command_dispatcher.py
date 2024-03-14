@@ -4,8 +4,11 @@ from commands.command import Command
 from commands.command import (AddBirthdayCommand, AddContactCommand, AllContactsCommand, ChangePhoneCommand,
                               ContactPhoneCommand, HelloCommand, ShowBirthdayCommand, ShowBirthdaysCommand,
                               RemoveContactCommand, EditContactCommand, RunAIAssistantCommand, SearchContactsCommand)
-from notes_book.notes_commands import (AddNoteCommand, EditNoteCommand, DeleteNoteCommand, SearchNoteByTitleCommand,
-                                       AddTagCommand, EditTagCommand, SearchNoteByTagCommand)
+
+from notes_book.notes_commands import (AddNoteCommand, EditNoteCommand, DeleteNoteCommand,
+                                       SearchNoteByTitleCommand, AddTagCommand, EditTagCommand,
+                                       SearchNoteByTagCommand)
+from localization import get_text
 
 
 class CommandDispatcher:
@@ -37,4 +40,4 @@ class CommandDispatcher:
         if command:
             command.execute(*args, **kwargs)
         else:
-            print('Invalid command')
+            print(get_text("INVALID_COMMAND"))

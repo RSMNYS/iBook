@@ -1,16 +1,23 @@
 import os
 from openai import OpenAI
 
-client = OpenAI(
-    # This is the default and can be omitted
-    api_key=os.environ.get("OPENAI_API_KEY"),
-)
+from localization import get_text
 
+class AIException(Exception):
+    ...
 
-def create_chat_completion(messages, temperature=0.1, response_format={"type": "json_object"}):
-    return client.chat.completions.create(
-        model='gpt-3.5-turbo',
-        messages=messages,
-        temperature=temperature,
-        response_format=response_format
+class AIAssistant(): 
+    client = None
+    def __init__(self):
+        try:
+            self.client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+        except:
+            raise AIException(get_text("NOT_INITIALIZED_AI_CLIENT"))
+
+    def create_chat_completion(self, messages, temperature=0.1, response_format={"type": "json_object"}):
+        return self.client.chat.completions.create(
+            model='gpt-3.5-turbo',
+            messages=messages,
+            temperature=temperature,
+            response_format=response_format
     )
