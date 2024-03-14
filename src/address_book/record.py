@@ -1,4 +1,4 @@
-from address_book.field import Name, Phone, Birthday, Email, Address
+from address_book.address_book_fields import Name, Phone, Birthday, Email, Address
 
 class Record:
     def __init__(self, name):
@@ -15,7 +15,7 @@ class Record:
             raise ValueError(f"Phone number: {phone} is wrong")
 
     def remove_phone(self, phone):
-        self.phones.remove[phone]
+        self.phones.remove(phone)
     
     def edit_phone(self, phone, new_phone):
         for i, item in enumerate(self.phones):
