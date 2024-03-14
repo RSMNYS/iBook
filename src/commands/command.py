@@ -11,6 +11,7 @@ from prompts.field import (NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt,
                            AddressPrompt, RemoveNamePrompt, EditNamePrompt, EditContactPrompt, AIPrompt)
 
 from services.ai_service import create_chat_completion
+from localization import get_text
 
 
 
@@ -22,7 +23,7 @@ class Command(ABC):
 
 class HelloCommand(Command):
     def execute(self):
-        print("How can I help you?")
+        print(get_text("HELP"))
 
 
 class AddContactCommand(Command):
@@ -65,7 +66,7 @@ class ChangePhoneCommand(Command):
         record = address_book.find(name)
         record.phones.clear()
         record.add_phone(phone)
-        print("Phone is updated for the user.")
+        print(UPDATED_PHONE)
 
 
 class ContactPhoneCommand(Command):
@@ -99,7 +100,7 @@ class AddBirthdayCommand(Command):
         birthday = BirthdayPrompt()
         if birthday.field:
             record.add_birthday(birthday.field)
-            print("Birthday is updated for the user.")
+            print(BIRTHDAY_UPDATED)
        
 
 class ShowBirthdayCommand(Command):
@@ -142,7 +143,7 @@ class RemoveContactCommand(Command):
         except BaseValidationException as e:
             print(e)
         else:
-            print("Contact is deleted")
+            print(CONTACT_IS_DELETED)
 
 
 class EditContactCommand(Command):
@@ -153,7 +154,7 @@ class EditContactCommand(Command):
         except BaseValidationException as e:
             print(e)
         else:
-            print("Contact is updated")
+            print(CONTACT_IS_UPDATED)
 
     @staticmethod
     def _edit_contact(address_book: AddressBook):
@@ -196,16 +197,16 @@ class RunAIAssistantCommand(Command):
             
     def displayData(self, data):
         if data.get("contacts"):
-            print("Contacts:")
+            print(CONTACTS)
             for contact in data["contacts"]:
                 print(f"Name: {contact['name']}, Phone: {', '.join(contact['phones'])}, "
                 f"Birthday: {contact['birthday']}, Email: {contact['email']}, Address: {contact['address']}")
 
         if data.get("notes"):
-            print("\nNotes:")
+            print(NOTES)
             for note in data["notes"]:
                 print(f"Title: {note['title']}, Content: {note['content']}, Tags: {', '.join(note['tags'])}")
             else:
                 if not data.get("contacts"):
-                   print("No contacts or notes available.")
+                   print(NO_CONTACTS_OR_NOTES)
        

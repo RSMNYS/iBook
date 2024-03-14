@@ -1,5 +1,3 @@
-
-
 class BaseValidationException(Exception):
     error: str
 
