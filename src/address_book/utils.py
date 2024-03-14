@@ -6,11 +6,15 @@ from typing import List
 from address_book.record import Record
 from src.constants import *
 
+from localization import get_text
+
 def display_birthdays_per_week(users: List[Record], delta):
     today = datetime.today().date()
     birthdays = defaultdict(list)
 
     for user in users:
+        if not user.birthday:
+            continue
         name = user.name.value
         birthday =  datetime.strptime(user.birthday.value, "%d.%m.%Y")
         birthday = birthday.date()
@@ -29,7 +33,7 @@ def display_birthdays_per_week(users: List[Record], delta):
     if len(birthdays) > 0:
         _display_birthdays(birthdays)
     else:
-        message = NO_BIRTHDAYS_MESSAGE.format(n=delta)
+        message = get_text("NO_BIRTHDAYS_MESSAGE").format(n=delta)
         print(message)
     
     
