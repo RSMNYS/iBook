@@ -37,8 +37,7 @@ class EditNoteCommand(Command):
         note_to_edit = TitlePrompt().field
         if note_to_edit in notes:
             new_content = ContentPrompt().field
-            new_tags = TagPrompt().field.split(',') if TagPrompt().field else None
-            notes.edit_note(note_to_edit, new_content, new_tags)
+            notes.edit_note(note_to_edit, new_content)
             print(get_text("NOTE_IS_EDITED"))
         else:
             print(get_text("NOTE_NOT_FOUND"))

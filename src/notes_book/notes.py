@@ -25,13 +25,11 @@ class Notes(UserDict):
     def add_note(self, note: Note):
         self.data[note.title.value] = note
 
-    def edit_note(self, title, new_content=None, new_tags=None):
+    def edit_note(self, title, new_content=None):
         if title in self.data:
             note = self.data[title]
             if new_content:
                 note.content = Content(new_content)
-            if new_tags:
-                note.tags = Tag(new_tags)
 
     def delete_note(self, title):
         if title in self.data:
