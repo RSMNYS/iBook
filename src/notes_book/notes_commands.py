@@ -23,17 +23,44 @@ class AddNoteCommand(Command):
         notes.add_note(note)
         print(get_text("NOTE_IS_ADDED"))
 
-# class EditNoteCommand(Command):
+class EditNoteCommand(Command):
 
-#     def execute(self, *args, **kwargs):
-#         title = input("Enter the title of the note to edit: ")
-#         new_content = input("Enter the new content of the note: ")
-#         kwargs['notes'].edit_note(title, new_content)
+    def execute(self, **kwargs):
+        notes = kwargs.get('notes')
+        try:
+            self._edit_note(notes)
+        except ExitFromUserPrompt:
+            print(get_text("NOTE_IS_NOT_EDITED"))
 
-# class DeleteNoteCommand(Command):
-#     def execute(self, *args, **kwargs):
-#         title = input("Enter the title of the note to delete: ")
-#         kwargs['notes'].delete_notebook(title)
+    @staticmethod
+    def _edit_note(notes: Notes):
+        note_to_edit = TitlePrompt().field
+        note = notes.get(note_to_edit)
+        if note:
+            new_content = ContentPrompt().field
+            new_tags = TagPrompt().field.split(',') if TagPrompt().field else None
+            notes.edit_note(note_to_edit, new_content, new_tags)
+            print(get_text("NOTE_IS_EDITED"))
+        else:
+            print(get_text("NOTE_NOT_FOUND"))
+
+class DeleteNoteCommand(Command):
+
+    def execute(self, **kwargs):
+        notes = kwargs.get('notes')
+        try:
+            self._delete_note(notes)
+        except ExitFromUserPrompt:
+            print(get_text("NOTE_IS_NOT_DELETED"))
+
+    @staticmethod
+    def _delete_note(notes: Notes):
+        title_to_delete = TitlePrompt().field
+        if title_to_delete in notes:
+            notes.delete_note(title_to_delete)
+            print(get_text("NOTE_IS_DELETED"))
+        else:
+            print(get_text("NOTE_NOT_FOUND"))
 
 # class SearchNoteByTitleCommand(Command):
 #     def execute(self, *args, **kwargs):

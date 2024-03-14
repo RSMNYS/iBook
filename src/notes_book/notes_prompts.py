@@ -22,11 +22,11 @@ class ContentPrompt(Prompt):
     prompt: str = NotePromptMessages.ADD_NOTE_CONTENT
 
     def validate(self):
-        ...
+        pass
 
 @dataclass
 class TagPrompt(Prompt):
     prompt: str = NotePromptMessages.ADD_TAG
 
     def validate(self):
-        ...
+        pass

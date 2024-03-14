@@ -2,7 +2,7 @@ from typing import Dict
 
 from commands.command import Command, HelloCommand
 
-from notes_book.notes_commands import AddNoteCommand
+from notes_book.notes_commands import AddNoteCommand, EditNoteCommand, DeleteNoteCommand
 from address_book.address_book_commands import (AddBirthdayCommand, AddContactCommand, AllContactsCommand, ChangePhoneCommand,
                               ContactPhoneCommand, ShowBirthdayCommand, ShowBirthdaysCommand,
                               RemoveContactCommand, EditContactCommand, RunAIAssistantCommand)
@@ -24,8 +24,8 @@ class CommandDispatcher:
             "birthdays": ShowBirthdaysCommand(),
             "ai": RunAIAssistantCommand(),
             "add-note": AddNoteCommand(),
-            # "edit-note": EditNoteCommand(),
-            # "delete-note": DeleteNoteCommand(),
+            "edit-note": EditNoteCommand(),
+            "delete-note": DeleteNoteCommand(),
             # "search-note-title": SearchNoteByTitleCommand(),
             # "add-tag": AddTagCommand(),
             # "edit-tag": EditTagCommand(),
