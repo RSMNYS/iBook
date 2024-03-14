@@ -5,13 +5,13 @@ from decorators.input_error_decorator import input_error
 from address_book.address_book import AddressBook
 from address_book.record import Record
 from src.constants import *
-from exceptions.validation import (BaseValidationException, ContactNameNotFoundException,
-                                   ContactNameAlreadyExistsException)
+from exceptions.common import ExitFromUserPrompt
+from exceptions.validation import ContactNameNotFoundException, ContactNameAlreadyExistsException
 from prompts.field import (NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt,
                            AddressPrompt, RemoveNamePrompt, EditNamePrompt, EditContactPrompt, AIPrompt)
 
-from services.ai_service import create_chat_completion
-
+from services.ai_service import AIAssistant, AIException
+from localization import get_text
 
 
 class Command(ABC):
@@ -22,7 +22,7 @@ class Command(ABC):
 
 class HelloCommand(Command):
     def execute(self):
-        print("How can I help you?")
+        print(get_text("HELP"))
 
 
 class AddContactCommand(Command):
@@ -30,9 +30,8 @@ class AddContactCommand(Command):
     def execute(self, address_book: AddressBook):
         try:
             self._add_new_contact(address_book)
-        except BaseValidationException as e:
-            print(e)
-
+        except ExitFromUserPrompt:
+            print(get_text("CONTACT_IS_NOT_ADDED"))
     @staticmethod
     def _add_new_contact(address_book: AddressBook):
         record = Record(NamePrompt().field)
@@ -50,7 +49,7 @@ class AddContactCommand(Command):
             record.add_address(address.field)
 
         address_book.add_record(record)
-        print(CONTACT_IS_ADDED_MESSAGE)
+        print(get_text("CONTACT_IS_ADDED_MESSAGE"))
 
 
 class ChangePhoneCommand(Command):
@@ -65,7 +64,7 @@ class ChangePhoneCommand(Command):
         record = address_book.find(name)
         record.phones.clear()
         record.add_phone(phone)
-        print("Phone is updated for the user.")
+        print(get_text("UPDATED_PHONE"))
 
 
 class ContactPhoneCommand(Command):
@@ -90,8 +89,7 @@ class AllContactsCommand(Command):
 
 class AddBirthdayCommand(Command):
     
-    @input_error
-    def execute(self, name, birthday, address_book):
+    def execute(self, name, address_book):
         record: Record = address_book.get(name)
         if not record:
             raise KeyError("Enter user name")
@@ -99,7 +97,7 @@ class AddBirthdayCommand(Command):
         birthday = BirthdayPrompt()
         if birthday.field:
             record.add_birthday(birthday.field)
-            print("Birthday is updated for the user.")
+            print(get_text("BIRTHDAY_UPDATED"))
        
 
 class ShowBirthdayCommand(Command):
@@ -119,9 +117,9 @@ class ShowBirthdayCommand(Command):
 class ShowBirthdaysCommand(Command):
 
     def execute(self, address_book):
-        days_in_advance = self.get_input(UPCOMING_BIRTHDAYS_MESSAGE)
+        days_in_advance = self.get_input(get_text("UPCOMING_BIRTHDAYS_MESSAGE"))
         if not days_in_advance:
-            print(EMPTY_DAYS_ERROR_MESSAGE)
+            print(get_text("EMPTY_DAYS_ERROR_MESSAGE"))
             return
 
         self._show_birthdays(address_book, days_in_advance)
@@ -139,10 +137,13 @@ class RemoveContactCommand(Command):
     def execute(self, address_book: AddressBook):
         try:
             address_book.delete(RemoveNamePrompt().field)
-        except BaseValidationException as e:
+        except ContactNameNotFoundException as e:
             print(e)
+            self.execute(address_book)
+        except ExitFromUserPrompt:
+            print("Contact is not deleted")
         else:
-            print("Contact is deleted")
+            print(get_text("CONTACT_IS_DELETED"))
 
 
 class EditContactCommand(Command):
@@ -150,10 +151,13 @@ class EditContactCommand(Command):
     def execute(self, address_book: AddressBook):
         try:
             self._edit_contact(address_book)
-        except BaseValidationException as e:
+        except ContactNameNotFoundException as e:
             print(e)
+            self.execute(address_book)
+        except ExitFromUserPrompt:
+            print("Contact is not updated")
         else:
-            print("Contact is updated")
+            print(get_text("CONTACT_IS_UPDATED"))
 
     @staticmethod
     def _edit_contact(address_book: AddressBook):
@@ -174,38 +178,41 @@ class EditContactCommand(Command):
         elif edit.attribute == 'phone':
             record.phones.clear()
             for phone in edit.field.split(','):
-                record.add_phone(phone)\
+                record.add_phone(phone)
                     
+
 class RunAIAssistantCommand(Command):
     
     def execute(self, address_book: AddressBook):
-        prompt = AIPrompt()
-        system_instruction = "Given a JSON structure containing 'contacts' and 'notes', filter the data based on specified criteria (e.g., phone numbers starting with a certain digit, substrings in names, titles, or specific words in tags/content). Return the data in the same structure, under the original 'contacts' and 'notes' keys, respectively. Ensure empty arrays are returned for no matches and omit incomplete entries without altering the structure."
-        
-        
-        while prompt.field != 'exit':
-            data_str = f"{address_book.json()}"
-            data_str = data_str + f"\n\nQ{prompt.field}"
-            messages = [{"role": "system", "content": system_instruction}, {"role": "user", "content": data_str}]
-        
-            response = create_chat_completion(messages=messages)
-            data = json.loads(response.choices[0].message.content)
-            self.displayData(data)
-        
-            prompt = AIPrompt()
+        try:
+            ai_client = AIAssistant()
+            system_instruction = "Given a JSON structure containing 'contacts' and 'notes', filter the data based on specified criteria (e.g., phone numbers starting with a certain digit, substrings in names, titles, or specific words in tags/content). Return the data in the same structure, under the original 'contacts' and 'notes' keys, respectively. Ensure empty arrays are returned for no matches and omit incomplete entries without altering the structure. If command is not related to the data we have, please return empty arrays"
+
+            self.get_ai_answer(ai_client, system_instruction, address_book)
+
+        except ExitFromUserPrompt:
+            print(get_text("AI_BYE_MESSAGE"))
+        except AIException as e:
+            print(e)
+
+    def get_ai_answer(self, ai_client, system_instruction, address_book):
+        prompt = AIPrompt(break_cmd='exit')
+        data_str = f"{address_book.json()}"
+        data_str = data_str + f"\n\nQ{prompt.field}"
+        messages = [{"role": "system", "content": system_instruction}, {"role": "user", "content": data_str}]
+        response = ai_client.create_chat_completion(messages=messages)
+        data = json.loads(response.choices[0].message.content)
+        self.displayData(data)
+        self.get_ai_answer(ai_client, system_instruction, address_book)
             
     def displayData(self, data):
         if data.get("contacts"):
-            print("Contacts:")
+            print(get_text("CONTACTS"))
             for contact in data["contacts"]:
                 print(f"Name: {contact['name']}, Phone: {', '.join(contact['phones'])}, "
                 f"Birthday: {contact['birthday']}, Email: {contact['email']}, Address: {contact['address']}")
 
         if data.get("notes"):
-            print("\nNotes:")
+            print(get_text("NOTES"))
             for note in data["notes"]:
                 print(f"Title: {note['title']}, Content: {note['content']}, Tags: {', '.join(note['tags'])}")
-            else:
-                if not data.get("contacts"):
-                   print("No contacts or notes available.")
-       

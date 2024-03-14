@@ -28,7 +28,7 @@ def test_add_birthday_command_positive(mock_birthday_prompt, address_book_mock, 
 
     command = AddBirthdayCommand()
     with patch('builtins.input', return_value="01.01.1990"):
-        command.execute("John Doe", "01.01.1990", address_book_mock)
+        command.execute("John Doe", address_book_mock)
 
     record_mock.add_birthday.assert_called_once_with("01.01.1990")
 
@@ -37,9 +37,8 @@ def test_add_birthday_command_key_error(mock_birthday_prompt, address_book_mock)
     address_book_mock.get.side_effect = KeyError("Enter user name")
 
     command = AddBirthdayCommand()
-    # TODO: fix decorator
-    # with pytest.raises(KeyError):
-    command.execute("Nonexistent User", "01.01.1990", address_book_mock)
+    with pytest.raises(KeyError):
+        command.execute("Nonexistent User", address_book_mock)
 
 
 def test_add_birthday_command_empty_birthday_field(mock_birthday_prompt, address_book_mock, record_mock):
@@ -48,6 +47,6 @@ def test_add_birthday_command_empty_birthday_field(mock_birthday_prompt, address
 
     command = AddBirthdayCommand()
     with patch('builtins.input', return_value=""):
-        command.execute("John Doe", "", address_book_mock)
+        command.execute("John Doe", address_book_mock)
 
     record_mock.add_birthday.assert_not_called()
