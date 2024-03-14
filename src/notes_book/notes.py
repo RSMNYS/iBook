@@ -1,5 +1,6 @@
 from address_book.field import Note_Title, Note_Content, Note_Tag
 from collections import UserDict
+from constants import NOT_DELETED, TAG_CHANGED, MAIN
 
 
 class Notes(UserDict):
@@ -25,7 +26,7 @@ class Notes(UserDict):
     def delete_notebook(self, title):
         if title in self.data:
             del self.data[title]
-            print("Note deleted successfully!")
+            print(NOT_DELETED)
         else:
             print(f"Error: Note with title '{title}' not found.")
 
@@ -48,7 +49,7 @@ class Tags:
         try:
             index = self.tags.index(old_tag)
             self.tags[index] = Note_Tag(new_tag)
-            print("Tag changed!")
+            print(TAG_CHANGED)
         except ValueError:
             print(f"Error: Note with tag '{old_tag}' not found.")
 
@@ -61,4 +62,4 @@ class Tags:
 
 
 if __name__ == "__main__":
-    print('main')
+    print(MAIN)
