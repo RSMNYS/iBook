@@ -7,8 +7,8 @@ class NotePromptMessages:
     ADD_NOTE_TITLE = "Enter the title or type 'Exit' to switch on main prompt: "
     ADD_NOTE_CONTENT = "Enter the content or type 'Exit' to switch on main prompt: "
     ADD_TAG = "Enter the tag or type 'Exit' to switch on main prompt: "
-    SEARCH_NOTE_BY_TAG = "SEARCH_NOTE_BY_TA"
-    SEARCH_NOTE_BY_TITLE = "SEARCH_NOTE_BY_TITLE"
+    SEARCH_NOTE_BY_TAG = "Enter the tag you want to search or type 'Exit' to return to the main prompt: "
+    SEARCH_NOTE_BY_TITLE = "Enter the title you want to search or type 'Exit' to return to the main prompt: "
 
 
 @dataclass

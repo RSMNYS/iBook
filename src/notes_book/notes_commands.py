@@ -3,7 +3,7 @@ from exceptions.common import ExitFromUserPrompt
 from localization import get_text
 from notes_book.note import Note
 from notes_book.notes import Notes
-from notes_book.notes_prompts import ContentPrompt, TagPrompt, TitlePrompt
+from notes_book.notes_prompts import ContentPrompt, TagPrompt, TitlePrompt, SearchNoteByTagPrompt, SearchNoteByTitlePrompt
 
 class AddNoteCommand(Command):
 
@@ -34,8 +34,13 @@ class SearchNoteByTilte(Command):
             
     @staticmethod
     def _search(notes: Notes):
-        title = TitlePrompt()
-        print("SearchNoteByTilte")
+        result = []
+        search_prompt = SearchNoteByTitlePrompt()
+        
+        if search_prompt.field:
+            result = notes.search_by_title(search_prompt.field)
+        for note in result:
+            print(note.title)
 
 class SearchNoteByTagCommand(Command):
 
@@ -48,8 +53,12 @@ class SearchNoteByTagCommand(Command):
             
     @staticmethod
     def _search(notes: Notes):
-        title = TagPrompt()
-        print("SearchNoteByTagCommand")
+        search_prompt = SearchNoteByTagPrompt()
+        
+        if search_prompt.field:
+            result = notes.search_by_tag(search_prompt.field)
+        for note in result:
+            print(note.title)
 
 # class EditNoteCommand(Command):
 
