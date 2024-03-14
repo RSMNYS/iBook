@@ -29,3 +29,8 @@ class Note():
             title=self.title.value,
             tags=[t.value for t in self.tags],
             content=self.content.value if self.content else None)
+    
+    def __str__(self):
+        tags_str = ', '.join([tag.value for tag in self.tags])
+        content_str = self.content.value if self.content else "No content"
+        return f"Title: {self.title.value}\nTags: {tags_str}\nContent: {content_str}\n"
