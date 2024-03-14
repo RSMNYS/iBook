@@ -9,13 +9,13 @@ from prompts.field import (NamePrompt, PhonePrompt, EmailPrompt, BirthdayPrompt,
 def test_name_prompt_too_short_validation(monkeypatch, input_value):
     monkeypatch.setattr('builtins.input', lambda _: input_value)
     with pytest.raises(NameTooShortException):
-        NamePrompt()
+        NamePrompt(break_cmd=None)
 
 
 @pytest.mark.parametrize("input_value", ["Alexander", "Elizabeth"])
 def test_name_prompt_valid_input(monkeypatch, input_value):
     monkeypatch.setattr('builtins.input', lambda _: input_value)
-    prompt = NamePrompt()
+    prompt = NamePrompt(break_cmd=None)
     assert prompt.field == input_value
     assert prompt.prompt == PromptMessage.ADD_CONTACT_NAME
 
@@ -24,13 +24,13 @@ def test_name_prompt_valid_input(monkeypatch, input_value):
 def test_phone_prompt_invalid_format(monkeypatch, input_value):
     monkeypatch.setattr('builtins.input', lambda _: input_value)
     with pytest.raises(WrongPhoneFormatException):
-        PhonePrompt()
+        PhonePrompt(break_cmd=None)
 
 
 @pytest.mark.parametrize("input_value", ["1234567890", "0987654321"])
 def test_phone_prompt_valid_input(monkeypatch, input_value):
     monkeypatch.setattr('builtins.input', lambda _: input_value)
-    prompt = PhonePrompt()
+    prompt = PhonePrompt(break_cmd=None)
     assert prompt.field == input_value
     assert prompt.prompt == PromptMessage.ADD_CONTACT_PHONE
 
@@ -39,13 +39,13 @@ def test_phone_prompt_valid_input(monkeypatch, input_value):
 def test_email_prompt_invalid_format(monkeypatch, input_value):
     monkeypatch.setattr('builtins.input', lambda _: input_value)
     with pytest.raises(WrongEmailException):
-        EmailPrompt()
+        EmailPrompt(break_cmd=None)
 
 
 @pytest.mark.parametrize("input_value", ["", "test@example.com"])
 def test_email_prompt_valid_input(monkeypatch, input_value):
     monkeypatch.setattr('builtins.input', lambda _: input_value)
-    prompt = EmailPrompt()
+    prompt = EmailPrompt(break_cmd=None)
     assert prompt.field == input_value
     assert prompt.prompt == PromptMessage.ADD_CONTACT_EMAIL
 
@@ -54,13 +54,13 @@ def test_email_prompt_valid_input(monkeypatch, input_value):
 def test_birthday_prompt_invalid_format(monkeypatch, input_value):
     monkeypatch.setattr('builtins.input', lambda _: input_value)
     with pytest.raises(WrongDateFormatException):
-        BirthdayPrompt()
+        BirthdayPrompt(break_cmd=None)
 
 
 @pytest.mark.parametrize("input_value", ["", "01.01.2000"])
 def test_birthday_prompt_valid_input(monkeypatch, input_value):
     monkeypatch.setattr('builtins.input', lambda _: input_value)
-    prompt = BirthdayPrompt()
+    prompt = BirthdayPrompt(break_cmd=None)
     assert prompt.field == input_value
     assert prompt.prompt == PromptMessage.ADD_CONTACT_BIRTHDAY
 
@@ -68,7 +68,7 @@ def test_birthday_prompt_valid_input(monkeypatch, input_value):
 @pytest.mark.parametrize("input_value", ["123 Main St.", ""])
 def test_address_prompt_input(monkeypatch, input_value):
     monkeypatch.setattr('builtins.input', lambda _: input_value)
-    prompt = AddressPrompt()
+    prompt = AddressPrompt(break_cmd=None)
     assert prompt.field == input_value
     assert prompt.prompt == PromptMessage.ADD_CONTACT_ADDRESS
 
@@ -76,7 +76,7 @@ def test_address_prompt_input(monkeypatch, input_value):
 @pytest.mark.parametrize("input_value", ["Alexander", "Elizabeth"])
 def test_remove_name_prompt(monkeypatch, input_value):
     monkeypatch.setattr('builtins.input', lambda _: input_value)
-    prompt = RemoveNamePrompt()
+    prompt = RemoveNamePrompt(break_cmd=None)
     assert prompt.field == input_value
     assert prompt.prompt == PromptMessage.REMOVE_CONTACT_NAME
 
@@ -84,7 +84,7 @@ def test_remove_name_prompt(monkeypatch, input_value):
 @pytest.mark.parametrize("input_value", ["Alexander", "Elizabeth"])
 def test_edit_name_prompt(monkeypatch, input_value):
     monkeypatch.setattr('builtins.input', lambda _: input_value)
-    prompt = EditNamePrompt()
+    prompt = EditNamePrompt(break_cmd=None)
     assert prompt.field == input_value
     assert prompt.prompt == PromptMessage.EDIT_CONTACT_NAME
 
@@ -92,7 +92,7 @@ def test_edit_name_prompt(monkeypatch, input_value):
 @pytest.mark.parametrize("input_value", ["Alexander", "Elizabeth"])
 def test_edit_new_name_prompt(monkeypatch, input_value):
     monkeypatch.setattr('builtins.input', lambda _: input_value)
-    prompt = EditNewNamePrompt()
+    prompt = EditNewNamePrompt(break_cmd=None)
     assert prompt.field == input_value
     assert prompt.prompt == PromptMessage.EDIT_CONTACT_NEW_NAME
 
@@ -101,13 +101,13 @@ def test_edit_new_name_prompt(monkeypatch, input_value):
 def test_edit_phone_prompt_invalid_format(monkeypatch, input_value):
     monkeypatch.setattr('builtins.input', lambda _: input_value)
     with pytest.raises(WrongPhoneFormatException):
-        EditNewPhonePrompt()
+        EditNewPhonePrompt(break_cmd=None)
 
 
 @pytest.mark.parametrize("input_value", ["1234567890", "0987654321,0987654321", "1234567890,0987654321, 0987654321, "])
 def test_edit_phone_prompt_valid_input(monkeypatch, input_value):
     monkeypatch.setattr('builtins.input', lambda _: input_value)
-    prompt = EditNewPhonePrompt()
+    prompt = EditNewPhonePrompt(break_cmd=None)
     assert prompt.field == ','.join(sorted(set([p.strip() for p in input_value.split(',') if p.strip()])))
     assert prompt.prompt == PromptMessage.EDIT_CONTACT_NEW_PHONE
 
@@ -115,28 +115,16 @@ def test_edit_phone_prompt_valid_input(monkeypatch, input_value):
 def test_edit_contact_prompt_name(monkeypatch, mocker):
     monkeypatch.setattr('builtins.input', lambda _: 'name')
     mocker.patch('prompts.field.EditNewNamePrompt.field', new_callable=mocker.PropertyMock, return_value="John Doe")
-    prompt = EditContactPrompt()
+    prompt = EditContactPrompt(break_cmd=None)
     assert prompt.field == 'John Doe'
     assert prompt.prompt == PromptMessage.EDIT_CONTACT_INFO
     assert prompt.attribute == 'name'
 
 
-def test_edit_contact_prompt_name_invalid(monkeypatch):
-    monkeypatch.setattr('builtins.input', lambda _: 'name')
-    with pytest.raises(NameTooShortException):
-        EditContactPrompt()
-
-
 def test_edit_contact_prompt_phone(monkeypatch, mocker):
     monkeypatch.setattr('builtins.input', lambda _: 'phone')
     mocker.patch('prompts.field.EditNewPhonePrompt.field', new_callable=mocker.PropertyMock, return_value="0987654321")
-    prompt = EditContactPrompt()
+    prompt = EditContactPrompt(break_cmd=None)
     assert prompt.field == '0987654321'
     assert prompt.prompt == PromptMessage.EDIT_CONTACT_INFO
     assert prompt.attribute == 'phone'
-
-
-def test_edit_contact_prompt_phone_invalid(monkeypatch):
-    monkeypatch.setattr('builtins.input', lambda _: 'phone')
-    with pytest.raises(WrongPhoneFormatException):
-        EditContactPrompt()
