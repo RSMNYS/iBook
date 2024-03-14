@@ -43,7 +43,7 @@ class SearchNoteByTilte(Command):
         if not result:
             print(f"No notes found with title '{search_prompt.field}'.")
         else:
-            [print(note.__str__) for note in result]
+            [print(note.__str__()) for note in result]
 
 class SearchNoteByTagCommand(Command):
 
@@ -65,7 +65,7 @@ class SearchNoteByTagCommand(Command):
         if not result:
             print(f"No notes found with tag '{search_prompt.field}'.")
         else:
-            [print(note.__str__) for note in result]
+            [print(note.__str__()) for note in result]
 
 # class EditNoteCommand(Command):
 
