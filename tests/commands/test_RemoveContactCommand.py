@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import MagicMock, patch
-from commands.command import RemoveContactCommand
+from address_book.address_book_commands import RemoveContactCommand
 from address_book.address_book import AddressBook
 from exceptions.validation import BaseValidationException
 

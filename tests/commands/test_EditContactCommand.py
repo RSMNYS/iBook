@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import MagicMock, PropertyMock
-from commands.command import EditContactCommand
+from address_book.address_book_commands import EditContactCommand
 from address_book.address_book import AddressBook, Record
 
 
