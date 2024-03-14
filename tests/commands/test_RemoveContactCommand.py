@@ -34,8 +34,5 @@ def test_remove_contact_validation_exception(capsys, mock_remove_name_prompt):
 
     command = RemoveContactCommand()
     with patch('builtins.input', return_value="Invalid Name"):
-        command.execute(address_book_mock)
-
-    address_book_mock.delete.assert_called_once_with("Invalid Name")
-    captured = capsys.readouterr()
-    assert "Validation error" in captured.out
+        with pytest.raises(BaseValidationException):
+            command.execute(address_book_mock)

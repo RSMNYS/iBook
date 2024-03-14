@@ -5,14 +5,13 @@ from decorators.input_error_decorator import input_error
 from address_book.address_book import AddressBook
 from address_book.record import Record
 from src.constants import *
-from exceptions.validation import (BaseValidationException, ContactNameNotFoundException,
-                                   ContactNameAlreadyExistsException)
+from exceptions.common import ExitFromUserPrompt
+from exceptions.validation import ContactNameNotFoundException, ContactNameAlreadyExistsException
 from prompts.field import (NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt,
                            AddressPrompt, RemoveNamePrompt, EditNamePrompt, EditContactPrompt, AIPrompt)
 
 from services.ai_service import create_chat_completion
 from localization import get_text
-
 
 
 class Command(ABC):
@@ -31,8 +30,8 @@ class AddContactCommand(Command):
     def execute(self, address_book: AddressBook):
         try:
             self._add_new_contact(address_book)
-        except BaseValidationException as e:
-            print(e)
+        except ExitFromUserPrompt:
+            print("Contact is not added")
 
     @staticmethod
     def _add_new_contact(address_book: AddressBook):
@@ -91,8 +90,7 @@ class AllContactsCommand(Command):
 
 class AddBirthdayCommand(Command):
     
-    @input_error
-    def execute(self, name, birthday, address_book):
+    def execute(self, name, address_book):
         record: Record = address_book.get(name)
         if not record:
             raise KeyError("Enter user name")
@@ -140,8 +138,11 @@ class RemoveContactCommand(Command):
     def execute(self, address_book: AddressBook):
         try:
             address_book.delete(RemoveNamePrompt().field)
-        except BaseValidationException as e:
+        except ContactNameNotFoundException as e:
             print(e)
+            self.execute(address_book)
+        except ExitFromUserPrompt:
+            print("Contact is not deleted")
         else:
             print(CONTACT_IS_DELETED)
 
@@ -151,8 +152,11 @@ class EditContactCommand(Command):
     def execute(self, address_book: AddressBook):
         try:
             self._edit_contact(address_book)
-        except BaseValidationException as e:
+        except ContactNameNotFoundException as e:
             print(e)
+            self.execute(address_book)
+        except ExitFromUserPrompt:
+            print("Contact is not updated")
         else:
             print(CONTACT_IS_UPDATED)
 
@@ -175,12 +179,13 @@ class EditContactCommand(Command):
         elif edit.attribute == 'phone':
             record.phones.clear()
             for phone in edit.field.split(','):
-                record.add_phone(phone)\
+                record.add_phone(phone)
                     
+
 class RunAIAssistantCommand(Command):
     
     def execute(self, address_book: AddressBook):
-        prompt = AIPrompt()
+        prompt = AIPrompt(break_cmd=None)
         system_instruction = "Given a JSON structure containing 'contacts' and 'notes', filter the data based on specified criteria (e.g., phone numbers starting with a certain digit, substrings in names, titles, or specific words in tags/content). Return the data in the same structure, under the original 'contacts' and 'notes' keys, respectively. Ensure empty arrays are returned for no matches and omit incomplete entries without altering the structure. If command is not related to the data we have, please return empty arrays"
         
         
