@@ -6,8 +6,8 @@ import constants
 from collections import UserDict
 from localization import get_text
 from notes_book.note import Note
-from notes_book.notes_fields import Content, Title
-
+from notes_book.notes_fields import Content, Title, Tag
+from exceptions.validation import ContactNameNotFoundException
 
 class Notes(UserDict):
     @property
@@ -25,18 +25,17 @@ class Notes(UserDict):
     def add_note(self, note: Note):
         self.data[note.title.value] = note
 
-    # def edit_note(self, title, new_content):
-    #     if title in self.data:
-    #         self.data[title] = Content(new_content)
-    #     else:
-    #         print(f"Error: Note with title '{title}' not found.")
+    def edit_note(self, title, new_content=None):
+        if title in self.data:
+            note = self.data[title]
+            if new_content:
+                note.content = Content(new_content)
 
-    # def delete_notebook(self, title):
-    #     if title in self.data:
-    #         del self.data[title]
-    #         print(get_text("NOT_DELETED"))
-    #     else:
-    #         print(f"Error: Note with title '{title}' not found.")
+    def delete_note(self, title):
+        try:
+            self.data.pop(title)
+        except KeyError:
+            raise ContactNameNotFoundException(title)
 
     # def search_by_title(self, query):
     #     results = []
