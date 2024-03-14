@@ -74,3 +74,6 @@ class Notes(UserDict):
             if note.title.value == title:
                 matching_notes.append(note)
         return matching_notes
+
+    def json(self):
+        return json.dumps([r.to_dict() for r in self.notes], indent=4)

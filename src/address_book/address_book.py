@@ -58,7 +58,7 @@ class AddressBook(UserDict):
         return address_book
     
     def json(self):
-        return "{" + f"contacts:" + json.dumps([r.to_dict() for r in self.records], indent=4) + "}"
+        return json.dumps([r.to_dict() for r in self.records], indent=4)
 
     
     def save(self):
