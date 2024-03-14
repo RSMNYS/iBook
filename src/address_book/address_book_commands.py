@@ -181,22 +181,6 @@ class EditContactCommand(Command):
 
 class SearchContactsCommand(Command):
 
-    # def execute(self,  **kwargs):
-    #     address_book = kwargs.get('address_book', {})
-    #     days_in_advance = self.get_input(get_text("UPCOMING_BIRTHDAYS_MESSAGE"))
-    #     if not days_in_advance:
-    #         print(get_text("EMPTY_DAYS_ERROR_MESSAGE"))
-    #         return
-    #
-    #     self._show_birthdays(address_book, days_in_advance)
-    #
-    # def _show_birthdays(self, address_book: AddressBook, days_in_advance):
-    #     if address_book:
-    #         address_book.show_birthdays_per_week(days_in_advance)
-    #
-    # def get_input(self, prompt):
-    #     return input(prompt)
-
     def execute(self,  **kwargs):
         address_book = kwargs.get('address_book', {})
         search_parameter = self.get_input(get_text("SEARCH_CONTACTS_INSTRUCTION_MESSAGE"))
