@@ -24,7 +24,7 @@ class ContentPrompt(Prompt):
     prompt: str = NotePromptMessages.ADD_NOTE_CONTENT
 
     def validate(self):
-        ...
+        pass
 
 @dataclass
 class TagPrompt(Prompt):
@@ -45,3 +45,16 @@ class SearchNoteByTitlePrompt(Prompt):
     
     def validate(self):
         ...
+@dataclass
+class SearchNoteByTagPrompt(Prompt):
+    prompt: str = NotePromptMessages.SEARCH_NOTE_BY_TAG
+    
+    def validate(self):
+        ...
+
+@dataclass
+class SearchNoteByTitlePrompt(Prompt):
+    prompt: str = NotePromptMessages.SEARCH_NOTE_BY_TITLE
+    
+    def validate(self):
+        pass
