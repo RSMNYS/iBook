@@ -10,7 +10,7 @@ from exceptions.validation import ContactNameNotFoundException, ContactNameAlrea
 from prompts.field import (NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt,
                            AddressPrompt, RemoveNamePrompt, EditNamePrompt, EditContactPrompt, AIPrompt)
 
-from services.ai_service import create_chat_completion
+from services.ai_service import AIAssistant, AIException
 from localization import get_text
 
 
@@ -31,8 +31,7 @@ class AddContactCommand(Command):
         try:
             self._add_new_contact(address_book)
         except ExitFromUserPrompt:
-            print("Contact is not added")
-
+            print(get_text("CONTACT_IS_NOT_ADDED"))
     @staticmethod
     def _add_new_contact(address_book: AddressBook):
         record = Record(NamePrompt().field)
@@ -185,20 +184,26 @@ class EditContactCommand(Command):
 class RunAIAssistantCommand(Command):
     
     def execute(self, address_book: AddressBook):
-        prompt = AIPrompt(break_cmd=None)
-        system_instruction = "Given a JSON structure containing 'contacts' and 'notes', filter the data based on specified criteria (e.g., phone numbers starting with a certain digit, substrings in names, titles, or specific words in tags/content). Return the data in the same structure, under the original 'contacts' and 'notes' keys, respectively. Ensure empty arrays are returned for no matches and omit incomplete entries without altering the structure. If command is not related to the data we have, please return empty arrays"
-        
-        
-        while prompt.field != 'exit':
-            data_str = f"{address_book.json()}"
-            data_str = data_str + f"\n\nQ{prompt.field}"
-            messages = [{"role": "system", "content": system_instruction}, {"role": "user", "content": data_str}]
-        
-            response = create_chat_completion(messages=messages)
-            data = json.loads(response.choices[0].message.content)
-            self.displayData(data)
-        
-            prompt = AIPrompt()
+        try:
+            ai_client = AIAssistant()
+            system_instruction = "Given a JSON structure containing 'contacts' and 'notes', filter the data based on specified criteria (e.g., phone numbers starting with a certain digit, substrings in names, titles, or specific words in tags/content). Return the data in the same structure, under the original 'contacts' and 'notes' keys, respectively. Ensure empty arrays are returned for no matches and omit incomplete entries without altering the structure. If command is not related to the data we have, please return empty arrays"
+
+            self.get_ai_answer(ai_client, system_instruction, address_book)
+
+        except ExitFromUserPrompt:
+            print(get_text("AI_BYE_MESSAGE"))
+        except AIException as e:
+            print(e)
+
+    def get_ai_answer(self, ai_client, system_instruction, address_book):
+        prompt = AIPrompt(break_cmd='exit')
+        data_str = f"{address_book.json()}"
+        data_str = data_str + f"\n\nQ{prompt.field}"
+        messages = [{"role": "system", "content": system_instruction}, {"role": "user", "content": data_str}]
+        response = ai_client.create_chat_completion(messages=messages)
+        data = json.loads(response.choices[0].message.content)
+        self.displayData(data)
+        self.get_ai_answer(ai_client, system_instruction, address_book)
             
     def displayData(self, data):
         if data.get("contacts"):
@@ -211,7 +216,3 @@ class RunAIAssistantCommand(Command):
             print(get_text("NOTES"))
             for note in data["notes"]:
                 print(f"Title: {note['title']}, Content: {note['content']}, Tags: {', '.join(note['tags'])}")
-            else:
-                if not data.get("contacts"):
-                   print(get_text("NO_CONTACTS_OR_NOTES"))
-       
