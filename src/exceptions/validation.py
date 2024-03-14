@@ -31,3 +31,8 @@ class ContactNameAlreadyExistsException(BaseValidationException):
 
 class UnsupportedEditAttributeException(BaseValidationException):
     error = "Contact attribute '{item}' is not found or not supported for editing"
+
+#TODO: move to the notes
+class TitleTooShortException(BaseValidationException):
+    error = "Title '{item}' is too short"
+

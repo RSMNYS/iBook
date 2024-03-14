@@ -1,9 +1,5 @@
-class Field:
-    def __init__(self, value):
-        self.value = value
+from fields.field import Field
 
-    def __str__(self):
-        return str(self.value)
 
 class Name(Field):
     def __init__(self, field):
@@ -26,16 +22,3 @@ class Email(Field):
 class Address(Field):
     def __init__(self, field):
         super().__init__(field)
-
-class Note_Title(Field):
-    def __init__(self, field):
-        super().__init__(field)
-
-class Note_Content(Field):
-    def __init__(self, field):
-        super().__init__(field)
-
-class Note_Tag(Field):
-    def __init__(self, field):
-        super().__init__(field)
-
