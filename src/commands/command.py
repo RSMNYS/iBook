@@ -226,17 +226,19 @@ class RunAIAssistantCommand(Command):
 class SearchContactsCommand(Command):
 
     def execute(self, address_book):
-        search_parameter = self.get_input(SEARCH_CONTACTS_INSTRUCTION_MESSAGE)
+        search_parameter = self.get_input(get_text("SEARCH_CONTACTS_INSTRUCTION_MESSAGE"))
         if not search_parameter:
-            print("Error: Please enter a valid number.")
             return
-        query = self.get_input("Enter the search query: ")
+        query = self.get_input(get_text("SEARCH_PROMPT"))
+        if not query:
+            print(get_text("EMPTY_SEARCH_QUERY_ERROR"))
+            return
         self._search_contact(search_parameter, query, address_book)
 
     def _search_contact(self, search_parameter, query, address_book: AddressBook):
         result = address_book.search(search_parameter, query)
-        for contact in result:
-            print(contact.name, contact.email, contact)
+        for record in result:
+            print(record.__str__())
 
     def get_input(self, prompt):
         return input(prompt)

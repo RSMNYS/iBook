@@ -38,7 +38,18 @@ class Record:
         self.address = Address(address)
 
     def __str__(self):
-        return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}, birthday: {self.birthday.value if self.birthday else ''}"
+        contact_info = f"Contact name: {self.name.value}\n"
+        if self.phones:
+            contact_info += "Phones:\n"
+            for phone in self.phones:
+                contact_info += f"- {phone.value}\n"
+        if self.birthday:
+            contact_info += f"Birthday: {self.birthday.value}\n"
+        if self.email:
+            contact_info += f"Email: {self.email.value}\n"
+        if self.address:
+            contact_info += f"Address: {self.address.value}\n"
+        return contact_info
 
     def to_dict(self):
         return dict(

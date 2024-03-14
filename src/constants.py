@@ -3,13 +3,7 @@ import os
 FILE_PATH_BOOK = os.path.abspath('address_book.json')
 FILE_PATH_NOTES = os.path.abspath('notes.json')
 
-SEARCH_CONTACTS_INSTRUCTION_MESSAGE = """
-Search Parameters:
-1. Search by Name
-2. Search by Phone Number
-3. Search by Email
-4. Search by Birthday
-"""
+
 EN = {
     "WELCOME_MESSAGE": "Welcome to the assistant bot!",
     "ENTER_COMMAND": "Enter a command: ",
@@ -52,5 +46,17 @@ EN = {
         birthdays: Показати дні народження, які відбудуться протягом наступного тижня.
         hello: Отримати вітання від бота.
         close або exit: Закрити програму.
-    """
+    """,
+    "SEARCH_CONTACTS_INSTRUCTION_MESSAGE":
+        """
+        To define the search type, please enter a number from 1 to 5:
+
+        To search by name, enter 1.
+        To search by phone number, enter 2.
+        To search by email, enter 3.
+        To search by birthday, enter 4.
+        To search by address, enter 5.
+        """,
+    "SEARCH_PROMPT": "Please enter your search query: ",
+    "EMPTY_SEARCH_QUERY_ERROR": "Error: Please enter a query to proceed."
 }
