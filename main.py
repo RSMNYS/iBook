@@ -1,21 +1,23 @@
 import sys
+from prompt_toolkit import prompt
+
 sys.path.append('src/')
 
 from dotenv import load_dotenv
 load_dotenv()
 
-from prompt_toolkit import prompt
+
 from services.autocompleter_service import Completer, RainbowLexer
 from address_book.address_book import AddressBook
+from notes_book.notes import Notes
 from commands.command_dispatcher import CommandDispatcher
-
 from parsers.input_parser import parse_input
-
 from localization import get_text
 
 
 def main():
     book = AddressBook.load()
+    notes = Notes.load()
     dispatcher = CommandDispatcher()
     print(get_text("WELCOME_MESSAGE"))
    
@@ -35,8 +37,13 @@ def main():
         if command == "help":
             print(get_text("COMMANDS_DESCRIPTION"))
             continue
-        dispatcher.dispatch(command, *args, address_book=book)
-        book.save()
+        dispatcher.dispatch(command, *args, address_book=book, notes=notes)
+
+        if book:
+            book.save()
+
+        if notes:
+            notes.save()
 
 
 if __name__ == "__main__":

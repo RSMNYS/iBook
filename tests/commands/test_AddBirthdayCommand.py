@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import MagicMock, patch
-from commands.command import AddBirthdayCommand
+from address_book.address_book_commands import AddBirthdayCommand
 from address_book.address_book import AddressBook
 from address_book.record import Record
 

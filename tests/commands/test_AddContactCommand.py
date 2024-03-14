@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import create_autospec
-from commands.command import AddContactCommand
+from address_book.address_book_commands import AddContactCommand
 from address_book.address_book import AddressBook
 from address_book.record import Record
 
