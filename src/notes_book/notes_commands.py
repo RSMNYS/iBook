@@ -40,7 +40,7 @@ class SearchNoteByTilte(Command):
         if search_prompt.field:
             result = notes.search_by_title(search_prompt.field)
         for note in result:
-            print(note.title)
+            print(note.__str__)
 
 class SearchNoteByTagCommand(Command):
 
@@ -58,7 +58,7 @@ class SearchNoteByTagCommand(Command):
         if search_prompt.field:
             result = notes.search_by_tag(search_prompt.field)
         for note in result:
-            print(note.title)
+            print(note.__str__)
 
 # class EditNoteCommand(Command):
 
@@ -111,3 +111,4 @@ class SearchNoteByTagCommand(Command):
 #                 print(result)
 #         else:
 #             print(get_text("NO_NOTES_FOUND_BY_TAG"))
+            
