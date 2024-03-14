@@ -30,6 +30,9 @@ EN = {
     "UPCOMING_BIRTHDAYS_MESSAGE": "Specify days in advance for upcoming birthdays: ",
     "EMPTY_DAYS_ERROR_MESSAGE": "Error: Days in advance can't be empty.",
     "CONTACT_IS_ADDED_MESSAGE":"Contact is added.",
+    "CONTACT_IS_NOT_ADDED": "Contact is not added",
+    "NOT_INITIALIZED_AI_CLIENT": "AI Client can't be initialized. Please provide the OPENAI_API_KEY",
+    "AI_BY_MESSAGE": "It was nice to talk with you",
     "COMMANDS_DESCRIPTION": """
         Available commands:
         add-contact [ім'я] [телефон]: Додати новий контакт з іменем та телефонним номером
