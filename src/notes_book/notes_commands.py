@@ -35,8 +35,7 @@ class EditNoteCommand(Command):
     @staticmethod
     def _edit_note(notes: Notes):
         note_to_edit = TitlePrompt().field
-        note = notes.get(note_to_edit)
-        if note:
+        if note_to_edit in notes:
             new_content = ContentPrompt().field
             new_tags = TagPrompt().field.split(',') if TagPrompt().field else None
             notes.edit_note(note_to_edit, new_content, new_tags)
