@@ -179,6 +179,43 @@ class EditContactCommand(Command):
                 record.add_phone(phone)
                     
 
+class SearchContactsCommand(Command):
+
+    # def execute(self,  **kwargs):
+    #     address_book = kwargs.get('address_book', {})
+    #     days_in_advance = self.get_input(get_text("UPCOMING_BIRTHDAYS_MESSAGE"))
+    #     if not days_in_advance:
+    #         print(get_text("EMPTY_DAYS_ERROR_MESSAGE"))
+    #         return
+    #
+    #     self._show_birthdays(address_book, days_in_advance)
+    #
+    # def _show_birthdays(self, address_book: AddressBook, days_in_advance):
+    #     if address_book:
+    #         address_book.show_birthdays_per_week(days_in_advance)
+    #
+    # def get_input(self, prompt):
+    #     return input(prompt)
+
+    def execute(self,  **kwargs):
+        address_book = kwargs.get('address_book', {})
+        search_parameter = self.get_input(get_text("SEARCH_CONTACTS_INSTRUCTION_MESSAGE"))
+        if not search_parameter:
+            return
+        query = self.get_input(get_text("SEARCH_PROMPT"))
+        if not query:
+            print(get_text("EMPTY_SEARCH_QUERY_ERROR"))
+            return
+        self._search_contact(search_parameter, query, address_book)
+
+    def _search_contact(self, search_parameter, query, address_book: AddressBook):
+        result = address_book.search(search_parameter, query)
+        for record in result:
+            print(record.__str__())
+
+    def get_input(self, prompt):
+        return input(prompt)
+
 class RunAIAssistantCommand(Command):
     
     def execute(self,  **kwargs):
