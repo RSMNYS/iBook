@@ -1,14 +1,7 @@
-from abc import ABC, abstractmethod
-from address_book.field import Note_Title, Note_Content, Note_Tag
-from notes import Notes, Tags
+from address_book.field import Note_Tag
+from commands.command import Command
 
-class NotesCommand(ABC):
-
-    @abstractmethod
-    def execute(self):
-        pass
-
-class AddNoteCommand(NotesCommand):
+class AddNoteCommand(Command):
 
     def execute(self, *args, **kwargs):
         title = input("Enter the title of the note: ")
@@ -16,19 +9,19 @@ class AddNoteCommand(NotesCommand):
         kwargs['notes'].add_note(title, content)
         print("Note added.")
 
-class EditNoteCommand(NotesCommand):
+class EditNoteCommand(Command):
 
     def execute(self, *args, **kwargs):
         title = input("Enter the title of the note to edit: ")
         new_content = input("Enter the new content of the note: ")
         kwargs['notes'].edit_note(title, new_content)
 
-class DeleteNoteCommand(NotesCommand):
+class DeleteNoteCommand(Command):
     def execute(self, *args, **kwargs):
         title = input("Enter the title of the note to delete: ")
         kwargs['notes'].delete_notebook(title)
 
-class SearchNoteByTitleCommand(NotesCommand):
+class SearchNoteByTitleCommand(Command):
     def execute(self, *args, **kwargs):
         query = input("Enter the query to search by title: ")
         results = kwargs['notes'].search_by_title(query)
@@ -40,13 +33,7 @@ class SearchNoteByTitleCommand(NotesCommand):
             print("No notes found.")
 
 
-class TagsCommand(ABC):
-
-    @abstractmethod
-    def execute(self):
-        pass
-
-class AddTagCommand(TagsCommand):
+class AddTagCommand(Command):
 
     def execute(self, *args, **kwargs):
         tags_input = input("Enter the tags separated by commas: ")
@@ -55,14 +42,14 @@ class AddTagCommand(TagsCommand):
             kwargs['tag_manager'].add_tag(tag)
         print("Tags added.")
         
-class EditTagCommand(TagsCommand):
+class EditTagCommand(Command):
 
     def execute(self, *args, **kwargs):
         old_tag = input("Enter the old tag: ")
         new_tag = input("Enter the new tag: ")
         kwargs['tags'].edit_tags(Note_Tag(old_tag), Note_Tag(new_tag))
 
-class SearchNoteByTagCommand(TagsCommand):
+class SearchNoteByTagCommand(Command):
 
     def execute(self, *args, **kwargs):
         tag = input("Enter the tag to search by: ")
