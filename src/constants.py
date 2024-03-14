@@ -48,5 +48,17 @@ EN = {
         birthdays: Показати дні народження, які відбудуться протягом наступного тижня.
         hello: Отримати вітання від бота.
         close або exit: Закрити програму.
-    """
+    """,
+    "SEARCH_CONTACTS_INSTRUCTION_MESSAGE":
+        """
+        To define the search type, please enter a number from 1 to 5:
+
+        To search by name, enter 1.
+        To search by phone number, enter 2.
+        To search by email, enter 3.
+        To search by birthday, enter 4.
+        To search by address, enter 5.
+        """,
+    "SEARCH_PROMPT": "Please enter your search query: ",
+    "EMPTY_SEARCH_QUERY_ERROR": "Error: Please enter a query to proceed."
 }

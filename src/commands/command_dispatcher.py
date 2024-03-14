@@ -5,7 +5,7 @@ from commands.command import Command, HelloCommand
 from notes_book.notes_commands import AddNoteCommand, EditNoteCommand, DeleteNoteCommand
 from address_book.address_book_commands import (AddBirthdayCommand, AddContactCommand, AllContactsCommand, ChangePhoneCommand,
                               ContactPhoneCommand, ShowBirthdayCommand, ShowBirthdaysCommand,
-                              RemoveContactCommand, EditContactCommand, RunAIAssistantCommand)
+                              RemoveContactCommand, EditContactCommand, RunAIAssistantCommand, SearchContactsCommand)
 from localization import get_text
 
 
@@ -22,6 +22,7 @@ class CommandDispatcher:
             "add-birthday": AddBirthdayCommand(),
             "show-birthday": ShowBirthdayCommand(),
             "birthdays": ShowBirthdaysCommand(),
+            "search": SearchContactsCommand(),
             "ai": RunAIAssistantCommand(),
             "add-note": AddNoteCommand(),
             "edit-note": EditNoteCommand(),

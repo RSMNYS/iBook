@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-
 from localization import get_text
 
 class Command(ABC):
