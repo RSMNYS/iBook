@@ -84,7 +84,7 @@ class EditNoteCommand(Command):
             notes.edit_note(note_to_edit, new_content)
             print(get_text("NOTE_IS_EDITED"))
         else:
-            print(get_text("NOTE_NOT_FOUND"))
+            print(get_text("NO_NOTES_FOUND"))
 
 class DeleteNoteCommand(Command):
 
@@ -93,8 +93,21 @@ class DeleteNoteCommand(Command):
             notes = kwargs.get('notes', {})
             title_to_delete = TitlePrompt().field
             notes.delete_note(title_to_delete)
-            print(get_text("NOTE_IS_DELETED"))
+            print(get_text("NOT_DELETED"))
         except KeyError:
-            print(get_text("NOTE_NOT_FOUND")) 
+            print(get_text("NO_NOTES_FOUND")) 
         except ExitFromUserPrompt:
             print(get_text("NOTE_IS_NOT_DELETED"))
+
+class AllNotesCommand(Command):
+   
+    def execute(self,  **kwargs):
+        notes = kwargs.get('notes', {})
+        self._all_notes(notes)
+    
+    def _all_notes(self, notes: Notes):
+        if not notes.notes:
+            print(get_text("NO_NOTES_FOUND"))
+        else:
+            for note in notes.notes:
+                print(note)
