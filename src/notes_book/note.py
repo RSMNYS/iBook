@@ -15,13 +15,11 @@ class Note():
         self.tags.append(Tag(tag))
 
     def remove_tag(self, tag):
-        tag_to_remove = tag
-        for t in self.tags:
-            if t.value == tag_to_remove:
-                self.tags.remove(t)
-                print(get_text("TAG_DELETED")) 
-            else:
-                print(get_text("TAG_NOT_FOUND")) 
+        try:
+            self.tags.remove(Tag(tag))
+            print(get_text("TAG_DELETED")) 
+        except ValueError:
+            print(get_text("TAG_NOT_FOUND")) 
     
     @classmethod
     def from_dict(cls, data) -> 'Note':

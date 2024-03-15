@@ -144,7 +144,7 @@ class RemoveContactCommand(Command):
 
     def execute(self,  **kwargs):
         try:
-            address_book = kwargs.get('address_book', {})
+            address_book: AddressBook = kwargs.get('address_book', {})
             address_book.delete(RemoveNamePrompt().field)
         except ContactNameNotFoundException as e:
             print(e)
