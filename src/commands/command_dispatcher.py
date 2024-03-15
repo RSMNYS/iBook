@@ -17,9 +17,9 @@ class CommandDispatcher:
             "add-contact": AddContactCommand(),
             "remove-contact": RemoveContactCommand(),
             "edit-contact": EditContactCommand(),
-            "change": ChangePhoneCommand(),
+            "change-phone": ChangePhoneCommand(),
             "phone": ContactPhoneCommand(),
-            "all": AllContactsCommand(),
+            "all-contacts": AllContactsCommand(),
             "add-birthday": AddBirthdayCommand(),
             "show-birthday": ShowBirthdayCommand(),
             "birthdays": ShowBirthdaysCommand(),
@@ -30,12 +30,6 @@ class CommandDispatcher:
             "delete-note": DeleteNoteCommand(),
             "search-note-title": SearchNoteByTilte(),
             "search-note-tag": SearchNoteByTagCommand()
-            # "edit-note": EditNoteCommand(),
-            # "delete-note": DeleteNoteCommand(),
-            # "search-note-title": SearchNoteByTitleCommand(),
-            # "add-tag": AddTagCommand(),
-            # "edit-tag": EditTagCommand(),
-            # "search-note-tag": SearchNoteByTagCommand()
         }
     
     def dispatch(self, command_name, *args, **kwargs):
