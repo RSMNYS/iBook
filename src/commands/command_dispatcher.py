@@ -29,13 +29,10 @@ class CommandDispatcher:
             "edit-note": EditNoteCommand(),
             "remove-note": DeleteNoteCommand(),
             "search-note-title": SearchNoteByTilte(),
-            "search-note-tag": SearchNoteByTagCommand()
-            # "edit-note": EditNoteCommand(),
-            # "delete-note": DeleteNoteCommand(),
-            # "search-note-title": SearchNoteByTitleCommand(),
-            # "add-tag": AddTagCommand(),
-            # "edit-tag": EditTagCommand(),
-            # "search-note-tag": SearchNoteByTagCommand()
+            "search-note-tag": SearchNoteByTagCommand(),
+            "all-notes": AllNotesCommand(),
+            "add-tag": AddTagCommand(),
+            "remove-tag": RemoveTagCommand()
         }
     
     def dispatch(self, command_name, *args, **kwargs):
