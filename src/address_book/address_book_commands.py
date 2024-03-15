@@ -6,10 +6,9 @@ from decorators.input_error_decorator import input_error
 from address_book.address_book import AddressBook
 from exceptions.common import ExitFromUserPrompt
 from exceptions.validation import ContactNameNotFoundException, ContactNameAlreadyExistsException
-from prompts.field import (NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt,
-                           AddressPrompt, RemoveNamePrompt, EditNamePrompt, EditContactPrompt, AIPrompt)
+from src.address_book.address_book_prompts import (NamePrompt, BirthdayPrompt, PhonePrompt, EmailPrompt,
+                           AddressPrompt, RemoveNamePrompt, EditNamePrompt, EditContactPrompt)
 
-from services.ai_service import AIAssistant, AIException
 from localization import get_text
 
 

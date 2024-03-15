@@ -2,10 +2,10 @@ import json
 
 from commands.command import Command
 from exceptions.common import ExitFromUserPrompt
-from prompts.field import AIPrompt
 
 from services.ai_service import AIAssistant, AIException
 from localization import get_text
+from src.ai.ai_prompts import AIPrompt
 
 
 class RunAIAssistantCommand(Command):
