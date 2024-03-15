@@ -20,7 +20,8 @@ def main():
     book = AddressBook.load()
     notes = Notes.load()
     dispatcher = CommandDispatcher()
-    print(Fore.BLUE + get_text("WELCOME_MESSAGE"))
+    print(Fore.BLUE + '\niBook')
+    print(Fore.YELLOW + '\n' + get_text("WELCOME_MESSAGE") + '\n')
    
     while True:
         user_input = prompt(get_text("ENTER_COMMAND"), completer=Completer, lexer=RainbowLexer())
@@ -30,7 +31,7 @@ def main():
         command, *args = parse_input(user_input)
 
         if command in ["close", "exit"]:
-            print(get_text("GOOD_BYE_MESSAGE"))
+            print(Fore.BLUE + '\n' + get_text("GOOD_BYE_MESSAGE") + '\n')
             break
         if command == "hello":
             dispatcher.dispatch(command)
