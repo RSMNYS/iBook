@@ -17,8 +17,8 @@ def record_mock():
 
 @pytest.fixture
 def mock_birthday_prompt(mocker):
-    mocker.patch('prompts.field.BirthdayPrompt.__init__', lambda self: None)
-    prompt = mocker.patch('prompts.field.BirthdayPrompt.field', new_callable=mocker.PropertyMock)
+    mocker.patch('address_book.address_book_prompts.BirthdayPrompt.__init__', lambda self: None)
+    prompt = mocker.patch('address_book.address_book_prompts.BirthdayPrompt.field', new_callable=mocker.PropertyMock)
     return prompt
 
 
@@ -28,7 +28,7 @@ def test_add_birthday_command_positive(mock_birthday_prompt, address_book_mock, 
 
     command = AddBirthdayCommand()
     with patch('builtins.input', return_value="01.01.1990"):
-        command.execute("John Doe", address_book_mock)
+        command.execute("John Doe", address_book=address_book_mock)
 
     record_mock.add_birthday.assert_called_once_with("01.01.1990")
 
@@ -38,7 +38,7 @@ def test_add_birthday_command_key_error(mock_birthday_prompt, address_book_mock)
 
     command = AddBirthdayCommand()
     with pytest.raises(KeyError):
-        command.execute("Nonexistent User", address_book_mock)
+        command.execute("Nonexistent User", address_book=address_book_mock)
 
 
 def test_add_birthday_command_empty_birthday_field(mock_birthday_prompt, address_book_mock, record_mock):
@@ -47,6 +47,6 @@ def test_add_birthday_command_empty_birthday_field(mock_birthday_prompt, address
 
     command = AddBirthdayCommand()
     with patch('builtins.input', return_value=""):
-        command.execute("John Doe", address_book_mock)
+        command.execute("John Doe", address_book=address_book_mock)
 
     record_mock.add_birthday.assert_not_called()
