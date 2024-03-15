@@ -39,11 +39,8 @@ def main():
             continue
         dispatcher.dispatch(command, *args, address_book=book, notes=notes)
 
-        if book:
-            book.save()
-
-        if notes:
-            notes.save()
+        book.save()
+        notes.save()
 
 
 if __name__ == "__main__":
