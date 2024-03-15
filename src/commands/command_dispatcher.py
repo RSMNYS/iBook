@@ -17,7 +17,7 @@ class CommandDispatcher:
             "add-contact": AddContactCommand(),
             "remove-contact": RemoveContactCommand(),
             "edit-contact": EditContactCommand(),
-            "change": ChangePhoneCommand(),
+            "change-phone": ChangePhoneCommand(),
             "phone": ContactPhoneCommand(),
             "all": AllContactsCommand(),
             "add-birthday": AddBirthdayCommand(),
