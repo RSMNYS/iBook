@@ -231,4 +231,4 @@ ES = {
     "AI": "Your question: ",
     "SWITCH_TO_MAIN_PROMPT": "Type 'Exit' to switch on main prompt"
 }
-#blah blah blah
+#blah blah
