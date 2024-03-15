@@ -23,6 +23,7 @@ Completer = NestedCompleter.from_nested_dict({'all-contacts': None,
                                               'add-tag': None, 
                                               'add-contact': None,
                                               'add-birthday': None, 
+                                              'all-notes': None,
                                               'birthdays': None, 
                                               'close': None, 
                                               'change-contact': None, 
@@ -40,6 +41,6 @@ Completer = NestedCompleter.from_nested_dict({'all-contacts': None,
                                               'search-note-tag': None, 
                                               'search': None,
                                               'remove-contact': None,
+                                              'remove-note': None,
+                                              'remove-tag': None,
                                               })
-
-

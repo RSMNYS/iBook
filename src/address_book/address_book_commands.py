@@ -24,7 +24,14 @@ class AddContactCommand(Command):
     @staticmethod
     def _add_new_contact(address_book: AddressBook):
         record = Record(NamePrompt().field)
-        record.add_phone(PhonePrompt().field)
+        phone_prompt = PhonePrompt()
+        while True:
+            try:
+                phone_number = phone_prompt.field
+                record.add_phone(phone_number)
+                break
+            except ValueError as e:
+                print(str(e)) 
 
         birthday = BirthdayPrompt()
         email = EmailPrompt()
@@ -59,14 +66,20 @@ class ChangePhoneCommand(Command):
 
 class ContactPhoneCommand(Command):
     
-    def execute(self, name,  **kwargs):
+    def execute(self, **kwargs):
         address_book = kwargs.get('address_book', {})
-        self._phone_for_username(name, address_book)
+        try:
+            self._phone_for_username(address_book)
+        except ContactNameNotFoundException as e:
+            print(e)
+            self.execute(address_book=address_book)
     
-    def _phone_for_username(self, name, address_book):
-        record: Record = address_book.find(name)
+    def _phone_for_username(self, address_book):
+        name = NamePrompt().field
+        record = address_book.get(name)
+        if not record:
+            raise ContactNameNotFoundException(name)
         print('; '.join(p.value for p in record.phones))
-
 
 class AllContactsCommand(Command):
    
@@ -131,7 +144,7 @@ class RemoveContactCommand(Command):
 
     def execute(self,  **kwargs):
         try:
-            address_book = kwargs.get('address_book', {})
+            address_book: AddressBook = kwargs.get('address_book', {})
             address_book.delete(RemoveNamePrompt().field)
         except ContactNameNotFoundException as e:
             print(e)
@@ -193,8 +206,11 @@ class SearchContactsCommand(Command):
 
     def _search_contact(self, search_parameter, query, address_book: AddressBook):
         result = address_book.search(search_parameter, query)
-        for record in result:
-            print(record.__str__())
+        if not result:
+            print(get_text("NO_CONTACTS_MESSAGE", format = {'query': query}))
+        else:
+            for record in result:
+                print(record.__str__())
 
     def get_input(self, prompt):
         return input(prompt)
