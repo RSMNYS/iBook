@@ -43,7 +43,7 @@ class Notes(UserDict):
             note.add_tag(tag)
 
     def remove_tag(self, tag, title):
-        note = self.data[title]
+        note: Note = self.data[title]
         note.remove_tag(tag)
 
     @classmethod
