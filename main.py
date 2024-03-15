@@ -1,18 +1,26 @@
 import sys
 from prompt_toolkit import prompt
 
-sys.path.append('src/')
+# sys.path.append('src/')
 
 from dotenv import load_dotenv
 load_dotenv()
 
-
-from services.autocompleter_service import Completer, RainbowLexer
-from address_book.address_book import AddressBook
-from notes_book.notes import Notes
-from commands.command_dispatcher import CommandDispatcher
-from parsers.input_parser import parse_input
-from localization import get_text
+try:
+    from services.autocompleter_service import Completer, RainbowLexer
+    from address_book.address_book import AddressBook
+    from notes_book.notes import Notes
+    from commands.command_dispatcher import CommandDispatcher
+    from parsers.input_parser import parse_input
+    from localization import get_text
+except:
+    from .services.autocompleter_service import Completer, RainbowLexer
+    from .address_book.address_book import AddressBook
+    from .notes_book.notes import Notes
+    from .commands.command_dispatcher import CommandDispatcher
+    from .parsers.input_parser import parse_input
+    from .localization import get_text
+    
 
 
 def main():

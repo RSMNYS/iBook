@@ -34,5 +34,5 @@ setup(name='iBook',
                   'pytest-mock==3.12.0'
                   ]
             },
-      entry_points={"console_scripts": ["run_ibook = iBook:main"]},
+      entry_points={"console_scripts": ["run_ibook = iBook.main:main"]},
       )

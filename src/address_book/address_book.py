@@ -4,9 +4,9 @@ from collections import UserDict
 from typing import List
 from pprint import pprint
 
-import constants
+from .. import constants
 from address_book.address_book_searcher import AddressBookSearcher
-from address_book.record import Record
+from .record import Record
 from address_book.utils import display_birthdays_per_week as display_birthdays_per_week
 from exceptions.validation import ContactNameNotFoundException
 
