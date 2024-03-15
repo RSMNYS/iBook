@@ -13,23 +13,23 @@ def address_book_mock(mocker):
 @pytest.fixture
 def record_mock(mocker):
     mock = create_autospec(Record)
-    mocker.patch('commands.command.Record', return_value=mock)
+    mocker.patch('address_book.record.Record', return_value=mock)
     return mock
 
 
 @pytest.fixture
 def setup_prompts(mocker):
-    mocker.patch('prompts.field.NamePrompt.__init__', return_value=None)
-    mocker.patch('prompts.field.PhonePrompt.__init__', return_value=None)
-    mocker.patch('prompts.field.BirthdayPrompt.__init__', return_value=None)
-    mocker.patch('prompts.field.EmailPrompt.__init__', return_value=None)
-    mocker.patch('prompts.field.AddressPrompt.__init__', return_value=None)
+    mocker.patch('address_book.address_book_prompts.NamePrompt.__init__', return_value=None)
+    mocker.patch('address_book.address_book_prompts.PhonePrompt.__init__', return_value=None)
+    mocker.patch('address_book.address_book_prompts.BirthdayPrompt.__init__', return_value=None)
+    mocker.patch('address_book.address_book_prompts.EmailPrompt.__init__', return_value=None)
+    mocker.patch('address_book.address_book_prompts.AddressPrompt.__init__', return_value=None)
 
-    mocker.patch('prompts.field.NamePrompt.field', new_callable=mocker.PropertyMock, return_value="John Doe")
-    mocker.patch('prompts.field.PhonePrompt.field', new_callable=mocker.PropertyMock, return_value="1234567890")
-    mocker.patch('prompts.field.BirthdayPrompt.field', new_callable=mocker.PropertyMock, return_value="")
-    mocker.patch('prompts.field.EmailPrompt.field', new_callable=mocker.PropertyMock, return_value="")
-    mocker.patch('prompts.field.AddressPrompt.field', new_callable=mocker.PropertyMock, return_value="")
+    mocker.patch('address_book.address_book_prompts.NamePrompt.field', new_callable=mocker.PropertyMock, return_value="John Doe")
+    mocker.patch('address_book.address_book_prompts.PhonePrompt.field', new_callable=mocker.PropertyMock, return_value="1234567890")
+    mocker.patch('address_book.address_book_prompts.BirthdayPrompt.field', new_callable=mocker.PropertyMock, return_value="")
+    mocker.patch('address_book.address_book_prompts.EmailPrompt.field', new_callable=mocker.PropertyMock, return_value="")
+    mocker.patch('address_book.address_book_prompts.AddressPrompt.field', new_callable=mocker.PropertyMock, return_value="")
 
 
 @pytest.mark.parametrize("name,phone,birthday,email,address,expect_phone_call,expect_birthday_call,expect_email_call,expect_address_call", [
@@ -39,14 +39,14 @@ def setup_prompts(mocker):
     ("Jake Doe", "0987654321", "", "jake@example.com", "", True, False, True, False),
 ])
 def test_execute_various_inputs(setup_prompts, address_book_mock, record_mock, mocker, name, phone, birthday, email, address, expect_phone_call, expect_birthday_call, expect_email_call, expect_address_call):
-    mocker.patch('prompts.field.NamePrompt.field', new_callable=mocker.PropertyMock, return_value=name)
-    mocker.patch('prompts.field.PhonePrompt.field', new_callable=mocker.PropertyMock, return_value=phone)
-    mocker.patch('prompts.field.BirthdayPrompt.field', new_callable=mocker.PropertyMock, return_value=birthday)
-    mocker.patch('prompts.field.EmailPrompt.field', new_callable=mocker.PropertyMock, return_value=email)
-    mocker.patch('prompts.field.AddressPrompt.field', new_callable=mocker.PropertyMock, return_value=address)
+    mocker.patch('address_book.address_book_prompts.NamePrompt.field', new_callable=mocker.PropertyMock, return_value=name)
+    mocker.patch('address_book.address_book_prompts.PhonePrompt.field', new_callable=mocker.PropertyMock, return_value=phone)
+    mocker.patch('address_book.address_book_prompts.BirthdayPrompt.field', new_callable=mocker.PropertyMock, return_value=birthday)
+    mocker.patch('address_book.address_book_prompts.EmailPrompt.field', new_callable=mocker.PropertyMock, return_value=email)
+    mocker.patch('address_book.address_book_prompts.AddressPrompt.field', new_callable=mocker.PropertyMock, return_value=address)
 
     command = AddContactCommand()
-    command.execute(address_book_mock)
+    command.execute(address_book=address_book_mock)
 
     if expect_phone_call:
         record_mock.add_phone.assert_called_with(phone)

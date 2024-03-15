@@ -7,8 +7,8 @@ from exceptions.validation import BaseValidationException
 
 @pytest.fixture
 def mock_remove_name_prompt(mocker):
-    mocker.patch('prompts.field.RemoveNamePrompt.__init__', return_value=None)
-    prompt_mock = mocker.patch('prompts.field.RemoveNamePrompt.field', new_callable=mocker.PropertyMock)
+    mocker.patch('address_book.address_book_prompts.RemoveNamePrompt.__init__', return_value=None)
+    prompt_mock = mocker.patch('address_book.address_book_prompts.RemoveNamePrompt.field', new_callable=mocker.PropertyMock)
     return prompt_mock
 
 
@@ -19,7 +19,7 @@ def test_remove_contact_success(capsys, mock_remove_name_prompt):
 
     command = RemoveContactCommand()
     with patch('builtins.input', return_value="John Doe"):
-        command.execute(address_book_mock)
+        command.execute(address_book=address_book_mock)
 
     address_book_mock.delete.assert_called_once_with("John Doe")
     captured = capsys.readouterr()
@@ -35,4 +35,4 @@ def test_remove_contact_validation_exception(capsys, mock_remove_name_prompt):
     command = RemoveContactCommand()
     with patch('builtins.input', return_value="Invalid Name"):
         with pytest.raises(BaseValidationException):
-            command.execute(address_book_mock)
+            command.execute(address_book=address_book_mock)
