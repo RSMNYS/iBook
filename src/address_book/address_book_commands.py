@@ -24,7 +24,14 @@ class AddContactCommand(Command):
     @staticmethod
     def _add_new_contact(address_book: AddressBook):
         record = Record(NamePrompt().field)
-        record.add_phone(PhonePrompt().field)
+        phone_prompt = PhonePrompt()
+        while True:
+            try:
+                phone_number = phone_prompt.field
+                record.add_phone(phone_number)
+                break
+            except ValueError as e:
+                print(str(e)) 
 
         birthday = BirthdayPrompt()
         email = EmailPrompt()
