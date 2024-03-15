@@ -4,9 +4,9 @@ class Record:
     def __init__(self, name):
         self.name = Name(name)
         self.phones = []
-        self.birthday = None
-        self.email = None
-        self.address = None
+        self.birthday = Birthday(field="")
+        self.email = Email(field="")
+        self.address = Address(field="")
 
     def add_phone(self, phone):
         if (len(phone) == 10 and phone.isnumeric()):

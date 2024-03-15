@@ -24,7 +24,14 @@ class AddContactCommand(Command):
     @staticmethod
     def _add_new_contact(address_book: AddressBook):
         record = Record(NamePrompt().field)
-        record.add_phone(PhonePrompt().field)
+        phone_prompt = PhonePrompt()
+        while True:
+            try:
+                phone_number = phone_prompt.field
+                record.add_phone(phone_number)
+                break
+            except ValueError as e:
+                print(str(e)) 
 
         birthday = BirthdayPrompt()
         email = EmailPrompt()
@@ -193,8 +200,11 @@ class SearchContactsCommand(Command):
 
     def _search_contact(self, search_parameter, query, address_book: AddressBook):
         result = address_book.search(search_parameter, query)
-        for record in result:
-            print(record.__str__())
+        if not result:
+            print(get_text("NO_CONTACTS_MESSAGE", format = {'query': query}))
+        else:
+            for record in result:
+                print(record.__str__())
 
     def get_input(self, prompt):
         return input(prompt)
