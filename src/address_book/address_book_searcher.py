@@ -2,6 +2,8 @@ from typing import List
 
 from address_book.record import Record
 from address_book.search_parameters import SearchParameter
+from localization import get_text
+
 
 class AddressBookSearcher:
     _instance = None
@@ -33,6 +35,8 @@ class AddressBookSearcher:
         for record in address_book.records:
             if query.lower() in record.name.value.lower():
                 matching_records.append(record)
+            else:
+                return print(get_text("NO_CONTACTS_MESSAGE"))
         return matching_records
 
     def search_by_phone(self, address_book, query: str) -> List[Record]:
@@ -41,7 +45,8 @@ class AddressBookSearcher:
             for phone in record.phones:
                 if query.lower() in phone.value.lower():
                     matching_records.append(record)
-                    break
+                else:
+                    return print(get_text("NO_CONTACTS_MESSAGE"))
         return matching_records
 
     def search_by_birthday(self, address_book, query: str) -> List[Record]:
@@ -49,6 +54,8 @@ class AddressBookSearcher:
         for record in address_book.records:
             if query.lower() in record.birthday.value.lower():
                 matching_records.append(record)
+            else:
+                return print(get_text("NO_CONTACTS_MESSAGE"))
         return matching_records
 
     def search_by_email(self, address_book, query: str) -> List[Record]:
@@ -56,6 +63,8 @@ class AddressBookSearcher:
         for record in address_book.records:
             if query.lower() in record.email.value.lower():
                 matching_records.append(record)
+            else:
+                return print(get_text("NO_CONTACTS_MESSAGE"))
         return matching_records
 
     def search_by_address(self, address_book, query: str) -> List[Record]:
@@ -63,4 +72,6 @@ class AddressBookSearcher:
         for record in address_book.records:
             if query.lower() in record.address.value.lower():
                 matching_records.append(record)
+            else:
+                return print(get_text("NO_CONTACTS_MESSAGE"))
         return matching_records
