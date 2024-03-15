@@ -35,7 +35,7 @@ class PhonePrompt(Prompt):
     prompt: str = AdressBookPromptMessages.ADD_CONTACT_PHONE
 
     def validate(self):
-        if not re.match(r"\d{10,}", self.field):
+        if not re.match(r"^\d{10}$", self.field):
             raise WrongPhoneFormatException(self.field)
 
 
@@ -90,7 +90,7 @@ class EditNewPhonePrompt(Prompt):
     def validate(self):
         phones = sorted(set([p.strip() for p in self.field.split(',') if p.strip()]))
         for phone in phones:
-            if not re.match(r"\d{10,}", phone):
+            if not re.match(r"^\d{10}$", phone):
                 raise WrongPhoneFormatException(phone)
         self.field = ','.join(phones)
 
