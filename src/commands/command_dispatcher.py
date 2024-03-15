@@ -3,7 +3,7 @@ from typing import Dict
 from ai.ai_commands import RunAIAssistantCommand
 from commands.command import Command, HelloCommand
 
-from notes_book.notes_commands import AddNoteCommand, SearchNoteByTilte, SearchNoteByTagCommand, EditNoteCommand, DeleteNoteCommand
+from notes_book.notes_commands import AddNoteCommand, SearchNoteByTilte, SearchNoteByTagCommand, EditNoteCommand, DeleteNoteCommand, AddTagCommand, RemoveTagCommand
 from address_book.address_book_commands import (AddBirthdayCommand, AddContactCommand, AllContactsCommand, ChangePhoneCommand,
                               ContactPhoneCommand, ShowBirthdayCommand, ShowBirthdaysCommand,
                               RemoveContactCommand, EditContactCommand, SearchContactsCommand)
@@ -29,12 +29,12 @@ class CommandDispatcher:
             "edit-note": EditNoteCommand(),
             "delete-note": DeleteNoteCommand(),
             "search-note-title": SearchNoteByTilte(),
-            "search-note-tag": SearchNoteByTagCommand()
+            "search-note-tag": SearchNoteByTagCommand(),
             # "edit-note": EditNoteCommand(),
             # "delete-note": DeleteNoteCommand(),
             # "search-note-title": SearchNoteByTitleCommand(),
-            # "add-tag": AddTagCommand(),
-            # "edit-tag": EditTagCommand(),
+            "add-tag": AddTagCommand(),
+            "remove-tag": RemoveTagCommand(),
             # "search-note-tag": SearchNoteByTagCommand()
         }
     

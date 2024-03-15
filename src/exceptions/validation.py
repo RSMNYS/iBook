@@ -36,3 +36,5 @@ class UnsupportedEditAttributeException(BaseValidationException):
 class TitleTooShortException(BaseValidationException):
     error = "Title '{item}' is too short"
 
+class NoteNotFoundException(BaseValidationException):
+    error = "Note '{item}' does not exist in notes"
