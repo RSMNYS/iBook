@@ -1,4 +1,6 @@
 from notes_book.notes_fields import Content, Tag, Title
+from localization import get_text
+
 
 class Note():
     def __init__(self, title):
@@ -13,8 +15,12 @@ class Note():
         self.tags.append(Tag(tag))
 
     def remove_tag(self, tag):
-        self.tags.remove(tag)
-
+        try:
+            self.tags.remove(Tag(tag))
+            print(get_text("TAG_DELETED")) 
+        except ValueError:
+            print(get_text("TAG_NOT_FOUND")) 
+    
     @classmethod
     def from_dict(cls, data) -> 'Note':
         note = Note(data['title'])

@@ -81,7 +81,13 @@ EN = {
     "SWITCH_TO_MAIN_PROMPT": "Type 'Exit' to switch on main prompt",
     "NOTE_IS_NOT_EDITED": "Note was not edited",
     "NOTE_IS_EDITED": "Note edited successfully",
-    "NOTE_IS_NOT_DELETED": "Note is not deleted!"
+    "NOTE_IS_NOT_DELETED": "Note is not deleted!",
+    "TAG_DELETED": "Tag is deleted",
+    "TAG_NOT_DELETED": "Tag is not deleted",
+    "TAG_IS_ADDED": "Tag added successfully!",
+    "TAG_NOT_ADDED": "Tag was not added!",
+    "TAG_NOT_FOUND": "No tag found!",
+    "REMOVE_NOTE": "Enter the title of the note to remove: ",
 }
 
 UA = {
@@ -158,7 +164,8 @@ UA = {
     "EDIT_CONTACT_NEW_NAME": "Введіть нове ім'я контакту: ",
     "EDIT_CONTACT_NEW_PHONE": "Через кому введіть номера телефону контакта: ",
     "AI": "Ваше питання: ",
-    "SWITCH_TO_MAIN_PROMPT": "Введіть 'Exit' щоб переключитися на основне меню."
+    "SWITCH_TO_MAIN_PROMPT": "Введіть 'Exit' щоб переключитися на основне меню.",
+    "REMOVE_NOTE": "Введіть ім'я нотатки для видалення: ",
 }
 
 ES = {

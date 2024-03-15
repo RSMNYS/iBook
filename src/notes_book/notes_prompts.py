@@ -11,6 +11,7 @@ class NotePromptMessages:
     ADD_TAG = get_text("ADD_TAG")
     SEARCH_NOTE_BY_TAG = get_text("SEARCH_NOTE_BY_TAG")
     SEARCH_NOTE_BY_TITLE = get_text("SEARCH_NOTE_BY_TITLE")
+    REMOVE_NOTE = get_text("REMOVE_NOTE")
 
 
 @dataclass
@@ -26,7 +27,7 @@ class ContentPrompt(Prompt):
     prompt: str = NotePromptMessages.ADD_NOTE_CONTENT
 
     def validate(self):
-        pass
+        ...
 
 @dataclass
 class TagPrompt(Prompt):
@@ -34,6 +35,7 @@ class TagPrompt(Prompt):
 
     def validate(self):
         ...
+        
 @dataclass
 class SearchNoteByTagPrompt(Prompt):
     prompt: str = NotePromptMessages.SEARCH_NOTE_BY_TAG
@@ -47,16 +49,11 @@ class SearchNoteByTitlePrompt(Prompt):
     
     def validate(self):
         ...
-@dataclass
-class SearchNoteByTagPrompt(Prompt):
-    prompt: str = NotePromptMessages.SEARCH_NOTE_BY_TAG
-    
-    def validate(self):
-        ...
 
 @dataclass
-class SearchNoteByTitlePrompt(Prompt):
-    prompt: str = NotePromptMessages.SEARCH_NOTE_BY_TITLE
-    
+class RemoveNotePrompt(Prompt):
+    prompt: str = NotePromptMessages.REMOVE_NOTE
+
     def validate(self):
-        pass
+        if len(self.field) < 5:
+            raise TitleTooShortException(self.field)

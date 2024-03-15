@@ -66,14 +66,20 @@ class ChangePhoneCommand(Command):
 
 class ContactPhoneCommand(Command):
     
-    def execute(self, name,  **kwargs):
+    def execute(self, **kwargs):
         address_book = kwargs.get('address_book', {})
-        self._phone_for_username(name, address_book)
+        try:
+            self._phone_for_username(address_book)
+        except ContactNameNotFoundException as e:
+            print(e)
+            self.execute(address_book=address_book)
     
-    def _phone_for_username(self, name, address_book):
-        record: Record = address_book.find(name)
+    def _phone_for_username(self, address_book):
+        name = NamePrompt().field
+        record = address_book.get(name)
+        if not record:
+            raise ContactNameNotFoundException(name)
         print('; '.join(p.value for p in record.phones))
-
 
 class AllContactsCommand(Command):
    
@@ -138,7 +144,7 @@ class RemoveContactCommand(Command):
 
     def execute(self,  **kwargs):
         try:
-            address_book = kwargs.get('address_book', {})
+            address_book: AddressBook = kwargs.get('address_book', {})
             address_book.delete(RemoveNamePrompt().field)
         except ContactNameNotFoundException as e:
             print(e)
