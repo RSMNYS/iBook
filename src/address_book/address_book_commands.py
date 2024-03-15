@@ -2,7 +2,6 @@ import json
 
 from address_book.record import Record
 from commands.command import Command
-from decorators.input_error_decorator import input_error
 from address_book.address_book import AddressBook
 from exceptions.common import ExitFromUserPrompt
 from exceptions.validation import ContactNameNotFoundException, ContactNameAlreadyExistsException
@@ -50,15 +49,22 @@ class AddContactCommand(Command):
 
 class ChangePhoneCommand(Command):
 
-    @input_error
-    def execute(self, name, phone,  **kwargs):
+    def execute(self, **kwargs):
         address_book = kwargs.get('address_book', {})
-        self._change_username_phone(name, phone, address_book)
+        try:
+            self._change_username_phone(address_book)
+        except ContactNameNotFoundException as e:
+            print(e)
+            self.execute(address_book=address_book)
+        except ExitFromUserPrompt:
+           pass
     
-    def _change_username_phone(self,  name, phone, address_book: AddressBook):
-        if not address_book.get(name):
-            raise KeyError("Enter user name")
-        record = address_book.find(name)
+    def _change_username_phone(self, address_book: AddressBook):
+        name = NamePrompt().field
+        record = address_book.get(name)
+        if not record:
+            raise ContactNameNotFoundException(name)
+        phone = PhonePrompt().field
         record.phones.clear()
         record.add_phone(phone)
         print(get_text("UPDATED_PHONE"))
@@ -73,8 +79,11 @@ class ContactPhoneCommand(Command):
         except ContactNameNotFoundException as e:
             print(e)
             self.execute(address_book=address_book)
+        except ExitFromUserPrompt:
+            pass
+ 
     
-    def _phone_for_username(self, address_book):
+    def _phone_for_username(self, address_book: AddressBook):
         name = NamePrompt().field
         record = address_book.get(name)
         if not record:
