@@ -193,8 +193,11 @@ class SearchContactsCommand(Command):
 
     def _search_contact(self, search_parameter, query, address_book: AddressBook):
         result = address_book.search(search_parameter, query)
-        for record in result:
-            print(record.__str__())
+        if not result:
+            print(get_text("NO_CONTACTS_MESSAGE", format = {'query': query}))
+        else:
+            for record in result:
+                print(record.__str__())
 
     def get_input(self, prompt):
         return input(prompt)
