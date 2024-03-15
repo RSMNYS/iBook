@@ -37,13 +37,6 @@ class Notes(UserDict):
         except KeyError:
             raise ContactNameNotFoundException(title)
 
-    # def search_by_title(self, query):
-    #     results = []
-    #     for title, content in self.data.items():
-    #         if query.lower() in title.lower():
-    #             results.append((title, content))
-    #     return results
-
     @classmethod
     def load(cls) -> 'Notes':
         data = []
