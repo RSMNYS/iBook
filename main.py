@@ -1,5 +1,6 @@
 import sys
 from prompt_toolkit import prompt
+from colorama import Fore
 
 sys.path.append('src/')
 
@@ -19,7 +20,7 @@ def main():
     book = AddressBook.load()
     notes = Notes.load()
     dispatcher = CommandDispatcher()
-    print(get_text("WELCOME_MESSAGE"))
+    print(Fore.BLUE + get_text("WELCOME_MESSAGE"))
    
     while True:
         user_input = prompt(get_text("ENTER_COMMAND"), completer=Completer, lexer=RainbowLexer())

@@ -36,7 +36,7 @@ class AddressBook(UserDict):
             raise ContactNameNotFoundException(name)
 
     def get(self, key, default=None) -> Record:
-        return super().get(key, default)
+        return self.data.get(key, default)
 
     def show_birthdays_per_week(self, days_in_advance):
         display_birthdays_per_week(self.records, days_in_advance)
