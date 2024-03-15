@@ -23,5 +23,5 @@ Completer = NestedCompleter.from_nested_dict({'hello': None, 'exit': None,
                                               'show': None, 'all': None, 'remove-contact': None,
                                               'edit-contact': None, 'birthdays': None, 'ai': None,
                                               'add-note': None, 'edit-note': None, 'remove-note': None,
-                                              'search-note-title': None, 'add-tag': None, 'edit-tag': None,
+                                              'search-note-title': None, 'add-tag': None, 'remove-tag': None,
                                               'search-note-tag': None, 'all-notes': None})

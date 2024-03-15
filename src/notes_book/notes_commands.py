@@ -99,6 +99,43 @@ class DeleteNoteCommand(Command):
         except ExitFromUserPrompt:
             print(get_text("NOTE_IS_NOT_DELETED"))
 
+class AddTagCommand(Command):
+
+    def execute(self, **kwargs):
+        notes = kwargs.get('notes')
+        try:
+            self._add_tag(notes)
+        except ExitFromUserPrompt:
+            print(get_text("TAG_NOT_ADDED")) 
+
+    @staticmethod
+    def _add_tag(notes: Notes):
+        note_to_edit = TitlePrompt().field
+        if note_to_edit in notes:
+            new_tag = TagPrompt().field
+            notes.add_tag(new_tag, note_to_edit)
+            print(get_text("TAG_IS_ADDED"))
+        else:
+            print(get_text("NO_NOTES_FOUND"))
+
+class RemoveTagCommand(Command):
+
+    def execute(self, **kwargs):
+        notes = kwargs.get('notes')
+        try:
+            self._remove_tag(notes)
+        except ExitFromUserPrompt:
+            print(get_text("TAG_NOT_DELETED"))
+
+    @staticmethod
+    def _remove_tag(notes: Notes):
+        note_to_edit = TitlePrompt().field
+        if note_to_edit in notes:
+            del_tag = TagPrompt().field
+            notes.remove_tag(del_tag, note_to_edit)
+        else:
+            print(get_text("NO_NOTES_FOUND"))
+
 class AllNotesCommand(Command):
    
     def execute(self,  **kwargs):

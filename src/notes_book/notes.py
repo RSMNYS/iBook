@@ -7,7 +7,7 @@ from collections import UserDict
 from localization import get_text
 from notes_book.note import Note
 from notes_book.notes_fields import Content, Title, Tag
-from exceptions.validation import ContactNameNotFoundException
+from exceptions.validation import NoteNotFoundException
 
 class Notes(UserDict):
     @property
@@ -35,7 +35,16 @@ class Notes(UserDict):
         try:
             self.data.pop(title)
         except KeyError:
-            raise ContactNameNotFoundException(title)
+            raise NoteNotFoundException(title)
+        
+    def add_tag(self, tag, title):
+        if title in self.data:
+            note = self.data[title]
+            note.add_tag(tag)
+
+    def remove_tag(self, tag, title):
+        note = self.data[title]
+        note.remove_tag(tag)
 
     @classmethod
     def load(cls) -> 'Notes':
