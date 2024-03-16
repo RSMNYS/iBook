@@ -1,7 +1,7 @@
 from setuptools import setup, find_namespace_packages
 
 setup(name='iBook',
-      version='1',
+      version='2',
       description='iBook',
       url='https://github.com/RSMNYS/iBook',
       author='MagicDevs',
@@ -34,5 +34,5 @@ setup(name='iBook',
                   'pytest-mock==3.12.0'
                   ]
             },
-      entry_points={"console_scripts": ["run_ibook = iBook:main"]},
+      entry_points={"console_scripts": ["run_book = iBook.main:main"]},
       )
