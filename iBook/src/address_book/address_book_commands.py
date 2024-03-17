@@ -97,6 +97,8 @@ class AllContactsCommand(Command):
         self._all_contacts(address_book)
     
     def _all_contacts(self, address_book: AddressBook):
+        if len(address_book.records) == 0:
+            print(get_text("NO CONTACTS ARE AVAILABLE"))
         for record in address_book.records:
             print(record)
         

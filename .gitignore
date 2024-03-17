@@ -160,3 +160,5 @@ cython_debug/
 .idea/
 
 *.json
+
+api_key.cfg

@@ -38,7 +38,7 @@ def main():
         if command == "help":
             print(get_text("COMMANDS_DESCRIPTION"))
             continue
-        dispatcher.dispatch(command, *args, address_book=book, notes=notes)
+        dispatcher.dispatch(command, address_book=book, notes=notes)
 
         book.save()
         notes.save()
