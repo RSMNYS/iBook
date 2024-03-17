@@ -35,9 +35,9 @@ class CommandDispatcher:
             "all-notes": AllNotesCommand()
         }
     
-    def dispatch(self, command_name, *args, **kwargs):
+    def dispatch(self, command_name, **kwargs):
         command = self.commands.get(command_name)
         if command:
-            command.execute(*args, **kwargs)
+            command.execute(**kwargs)
         else:
             print(get_text("INVALID_COMMAND"))

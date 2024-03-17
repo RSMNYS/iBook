@@ -105,6 +105,9 @@ EN = {
     "TAG_NOT_ADDED": "Tag was not added!",
     "TAG_NOT_FOUND": "No tag found!",
     "REMOVE_NOTE": "Enter the title of the note to remove: ",
+    "NO_CONTACTS": "You don't have any contacts!",
+    "NO_NOTES": "You don't have any notes!",
+    "NO_DATA": "You don't have any data",   
 }
 
 UA = {
@@ -196,6 +199,9 @@ UA = {
     "AI": "Ваше питання: ",
     "SWITCH_TO_MAIN_PROMPT": "Введіть 'Exit' щоб переключитися на основне меню.",
     "REMOVE_NOTE": "Введіть ім'я нотатки для видалення: ",
+    "NO_CONTACTS": "У Вас немає збережених контактів!",
+    "NO_NOTES": "У Вас немає збережених нотатків!",
+    "NO_DATA": "Дані відсутні",
 }
 
 ES = {
@@ -287,5 +293,8 @@ ES = {
     "EDIT_CONTACT_NEW_NAME": "Agregue el nuevo nombre para el contacto: ",
     "EDIT_CONTACT_NEW_PHONE": "Agregue los teléfonos de contacto separados por comas: ",
     "AI": "Su pregunta: ",
-    "SWITCH_TO_MAIN_PROMPT": "oprima 'Salida' para cambiar al menú principal"
+    "SWITCH_TO_MAIN_PROMPT": "oprima 'Salida' para cambiar al menú principal",
+    "NO_CONTACTS": "No tienes contactos guardados!",
+    "NO_NOTES": "No tienes notas guardadas!",
+    "NO_DATA": "No tienes contactos guardados!"
 }
