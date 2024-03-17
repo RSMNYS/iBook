@@ -101,6 +101,23 @@ class AllContactsCommand(Command):
             print(get_text("NO CONTACTS ARE AVAILABLE"))
         for record in address_book.records:
             print(record)
+
+class ShowContactCommand(Command):
+    def execute(self,  **kwargs):
+        address_book = kwargs.get('address_book', {})
+        try:
+            self._show_contact(address_book)
+        except ContactNameNotFoundException as e:
+            print(e)
+            self.execute(address_book=address_book)
+        except ExitFromUserPrompt:
+            pass
+            
+    
+    def _show_contact(self, address_book: AddressBook):
+        name = NamePrompt().field
+        record = address_book.get(name)
+        print(record)
         
 
 class AddBirthdayCommand(Command):

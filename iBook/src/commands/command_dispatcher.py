@@ -6,7 +6,7 @@ from iBook.src.commands.command import Command, HelloCommand
 from iBook.src.notes_book.notes_commands import AddNoteCommand, AddTagCommand, AllNotesCommand, RemoveTagCommand, SearchNoteByTilte, SearchNoteByTagCommand, EditNoteCommand, RemoveNoteCommand
 from iBook.src.address_book.address_book_commands import (AddBirthdayCommand, AddContactCommand, AllContactsCommand, ChangePhoneCommand,
                               ContactPhoneCommand, ShowBirthdayCommand, ShowBirthdaysCommand,
-                              RemoveContactCommand, EditContactCommand, SearchContactsCommand)
+                              RemoveContactCommand, EditContactCommand, SearchContactsCommand, ShowContactCommand)
 from iBook.src.localization import get_text
 
 
@@ -20,6 +20,7 @@ class CommandDispatcher:
             "change-phone": ChangePhoneCommand(),
             "phone": ContactPhoneCommand(),
             "all-contacts": AllContactsCommand(),
+            "show-contact": ShowContactCommand(),
             "add-birthday": AddBirthdayCommand(),
             "show-birthday": ShowBirthdayCommand(),
             "birthdays": ShowBirthdaysCommand(),
