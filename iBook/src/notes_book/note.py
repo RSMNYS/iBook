@@ -14,9 +14,13 @@ class Note():
     def add_tag(self, tag):
         self.tags.append(Tag(tag))
 
-    def remove_tag(self, tag):
+    def remove_tag(self, title):
         try:
-            self.tags.remove(Tag(tag))
+            tag_to_remove = None
+            for tag in self.tags:
+                if tag.value == title:
+                    tag_to_remove = tag
+            self.tags.remove(tag_to_remove)
             print(get_text("TAG_DELETED"))
         except ValueError:
             print(get_text("TAG_NOT_FOUND"))

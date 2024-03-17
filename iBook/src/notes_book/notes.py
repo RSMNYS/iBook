@@ -45,6 +45,9 @@ class Notes(UserDict):
         note: Note = self.data[title]
         note.remove_tag(tag)
 
+    def get(self, key, default=None) -> Note:
+        return self.data.get(key, default)
+
     @classmethod
     def load(cls) -> 'Notes':
         data = []

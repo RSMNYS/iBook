@@ -111,18 +111,22 @@ class AddTagCommand(Command):
         notes = kwargs.get('notes')
         try:
             self._add_tag(notes)
+        except NoteNotFoundException as e:
+            print(e)
+            self.execute(notes=notes)
         except ExitFromUserPrompt:
             print(get_text("TAG_NOT_ADDED")) 
 
     @staticmethod
     def _add_tag(notes: Notes):
-        note_to_edit = TitlePrompt().field
-        if note_to_edit in notes:
-            new_tag = TagPrompt().field
-            notes.add_tag(new_tag, note_to_edit)
-            print(get_text("TAG_IS_ADDED"))
-        else:
-            print(get_text("NO_NOTES_FOUND"))
+        title = TitlePrompt().field
+        note = notes.get(title)
+        if not note:
+            raise NoteNotFoundException(get_text("NO_NOTES_FOUND"))
+
+        new_tag = TagPrompt().field
+        note.add_tag(new_tag)
+        print(get_text("TAG_IS_ADDED"))
 
 
 class RemoveTagCommand(Command):
@@ -131,17 +135,21 @@ class RemoveTagCommand(Command):
         notes = kwargs.get('notes')
         try:
             self._remove_tag(notes)
+        except NoteNotFoundException as e:
+            print(e)
+            self.execute(notes=notes)
         except ExitFromUserPrompt:
             print(get_text("TAG_NOT_DELETED"))
 
     @staticmethod
     def _remove_tag(notes: Notes):
-        note = TitlePrompt().field
-        if note in notes:
-            del_tag = TagPrompt().field
-            notes.remove_tag(del_tag, note)
-        else:
-            print(get_text("NO_NOTES_FOUND"))
+        title = TitlePrompt().field
+        note = notes.get(title)
+        if not note:
+            raise NoteNotFoundException(get_text("NO_NOTES_FOUND"))
+        del_tag = TagPrompt().field
+
+        note.remove_tag(del_tag)
 
 
 class AllNotesCommand(Command):
