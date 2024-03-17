@@ -20,7 +20,7 @@
 ### Використовуючи pypi
 
 Для встановлення пакету виконайте команду: ```pip install iBook```
-Щоб запустити команду з AI помічником потрібно вказати ключ OpenAI: ```run_book --open-ai-key=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```
+Щоб запустити команду з AI помічником потрібно вказати ключ OpenAI: ```run_book --open-ai-key=```
 
 ## Архітектура проекту
 
