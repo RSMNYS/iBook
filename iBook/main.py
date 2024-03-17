@@ -8,10 +8,14 @@ from iBook.src.notes_book.notes import Notes
 from iBook.src.commands.command_dispatcher import CommandDispatcher
 from iBook.src.parsers.input_parser import parse_input
 from iBook.src.localization import get_text
+from iBook.src.services.app_arguments_parser import AppArgumentsParser
 
 
 def main():
-    load_dotenv()
+
+    AppArgumentsParser().arguments_parser()
+    
+    # load_dotenv()
     book = AddressBook.load()
     notes = Notes.load()
     dispatcher = CommandDispatcher()
@@ -38,7 +42,6 @@ def main():
 
         book.save()
         notes.save()
-
 
 if __name__ == "__main__":
     main()
