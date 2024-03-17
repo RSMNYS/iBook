@@ -1,7 +1,7 @@
 from setuptools import setup, find_namespace_packages
 
 setup(name='iBook',
-      version='2',
+      version='4',
       description='iBook',
       url='https://github.com/RSMNYS/iBook',
       author='MagicDevs',
