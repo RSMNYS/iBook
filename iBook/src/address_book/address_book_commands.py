@@ -101,33 +101,69 @@ class AllContactsCommand(Command):
             print(get_text("NO CONTACTS ARE AVAILABLE"))
         for record in address_book.records:
             print(record)
+
+class ShowContactCommand(Command):
+    def execute(self,  **kwargs):
+        address_book = kwargs.get('address_book', {})
+        try:
+            self._show_contact(address_book)
+        except ContactNameNotFoundException as e:
+            print(e)
+            self.execute(address_book=address_book)
+        except ExitFromUserPrompt:
+            pass
+            
+    
+    def _show_contact(self, address_book: AddressBook):
+        name = NamePrompt().field
+        record = address_book.get(name)
+        print(record)
         
 
 class AddBirthdayCommand(Command):
     
-    def execute(self, name,  **kwargs):
+    def execute(self, **kwargs):
         address_book = kwargs.get('address_book', {})
+        try:
+            self._add_birthday(address_book)
+        except ContactNameNotFoundException as e:
+            print(e)
+            self.execute(address_book=address_book)
+        except ExitFromUserPrompt:
+            pass
+
+    def _add_birthday(self, address_book: AddressBook):
+        name = NamePrompt().field
         record: Record = address_book.get(name)
         if not record:
-            raise KeyError("Enter user name")
+            raise ContactNameNotFoundException(name)
 
         birthday = BirthdayPrompt()
         if birthday.field:
             record.add_birthday(birthday.field)
             print(get_text("BIRTHDAY_UPDATED"))
+
+        print(f"Birthday for the contact: {record.name.value} is on {record.birthday.value}. Don't forget to congrat him")
        
 
 class ShowBirthdayCommand(Command):
     
-    def execute(self, name,  **kwargs):
+    def execute(self, **kwargs):
         address_book = kwargs.get('address_book', {})
-        self._show_birthday(name, address_book)
-
+        try:
+            self._show_birthday(address_book)
+        except ContactNameNotFoundException as e:
+            print(e)
+            self.execute(address_book=address_book)
+        except ExitFromUserPrompt:
+            pass
+            
    
-    def _show_birthday(self, name, address_book: AddressBook):
+    def _show_birthday(self, address_book: AddressBook):
+        name = NamePrompt().field
         record: Record = address_book.get(name)
         if not record:
-            raise KeyError("Enter user name")
+            raise ContactNameNotFoundException(name)
 
         print(f"Birthday for the contact: {record.name.value} is on {record.birthday.value}. Don't forget to congrat him")
 
